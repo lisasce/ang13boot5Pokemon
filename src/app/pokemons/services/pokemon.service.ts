@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {PokemonTypes} from "../pokemonStucture/pokemon-types";
 import {PokemonModel} from "../pokemonStucture/PokemonModel";
-import {HttpClient} from "@angular/common/http";
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import {HttpClient} from "@angular/common/http";
 @Injectable() // peut recevoir d'autres dependences
 export class PokemonService {
 
-  constructor(private http: HttpClient) {  }
+  constructor() {  }
 
   private pokemonsUrl = 'api/pokemons';
 

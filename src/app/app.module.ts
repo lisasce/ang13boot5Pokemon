@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {PokemonsRoutingModule} from "./pokemons/pokemons-routing.module";
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
   imports: [
     BrowserModule,
     NgbModule,
-    AppRoutingModule
+    PokemonsRoutingModule,
+    AppRoutingModule // si on met celle la avant on aura que du 404
   ],
   providers: [],
   bootstrap: [AppComponent]
