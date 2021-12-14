@@ -13,12 +13,27 @@
 
 
 <!--show pokemon's list section-->
-
+<p>list list</p>
 <div class='container'>
 
+  <div *ngFor='let pokemon of pokemons'>
+
+    <div class="card"
+         style="width: 18rem;"
+         (click)="selectPokemon(pokemon)"
+    >
+      <img [src]="pokemon.picture"
+           class="card-img-top"
+           alt="pokemon face">
+      <div class="card-body">
+        <h5 class="card-title">{{ pokemon.name }}</h5>
+        <p class="card-text"><small>{{ pokemon.created | date:'fullDate' }}</small></p>
+      </div>
+    </div>
+
+  </div>
 
 
-<p>list list</p>
 
 
 </div>

@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {PokemonTypes} from "../pokemonStucture/pokemon-types";
 import {PokemonModel} from "../pokemonStucture/PokemonModel";
+import {HttpClient} from "@angular/common/http";
+import {catchError, Observable, of, tap} from "rxjs";
+
 
 
 @Injectable({
@@ -10,13 +13,25 @@ import {PokemonModel} from "../pokemonStucture/PokemonModel";
 @Injectable() // peut recevoir d'autres dependences
 export class PokemonService {
 
-  constructor() {  }
-
   private pokemonsUrl = 'api/pokemons';
 
   private log(log: string) {
     console.info(log);
   }
+
+  private handleError<T>(operation= 'operation', result?: T){
+    return (error: any): Observable<T> => {
+      console.log(error);
+      console.log(`${operation} failed: ${error.message}`);
+      return of(result as T); //make the result observable
+    };
+  }
+
+  constructor(private http: HttpClient) {  }
+
+
+
+
 
   newPokemon(
     id = null,
@@ -40,5 +55,35 @@ export class PokemonService {
   idGenerator():number{
     return Math.floor(Math.random() * 893) + 13;
   }
+
+  getPokemons(): Observable<PokemonModel[ ]> {
+    return this.http.get<PokemonModel[]>(this.pokemonsUrl).pipe(
+      tap(pokemons => this.log(`fetched pokemons: ${pokemons}`) ),
+      catchError(this.handleError(`getPokemons`, []))
+    );
+  }
+
+  // tap: Perform a side effect for every emission on the source Observable, but return an Observable that is identical to the source, Intercepts each emission on the source and runs a function, but returns an output which is identical to the source as long as errors don't occur. https://rxjs.dev/api/operators/tap
+
+  getPokemon(id: number): Observable<PokemonModel>{
+    const url = `${this.pokemonsUrl}/${id}`;
+
+    return this.http.get<PokemonModel>(url).pipe(
+      tap(() => this.log(`fetched pokemon id=${id}`)),
+      catchError(this.handleError<PokemonModel>(`getPokemon id=${id}`))
+    );
+  }
+
+  getPokemonTypes(): Array<string>{
+
+    let pokemonTypes:Array<string>= [];
+
+    for(let value in PokemonTypes) {
+        pokemonTypes.push(value);
+    }
+    console.log(pokemonTypes);
+    return pokemonTypes;
+  }
+
 
 }

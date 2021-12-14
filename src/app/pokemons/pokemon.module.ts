@@ -6,6 +6,7 @@ import {ListComponent} from "./components/list/list.component";
 import {PokemonService} from "./services/pokemon.service";
 
 import {PokemonsRoutingModule} from "./pokemons-routing.module";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -16,6 +17,7 @@ import {PokemonsRoutingModule} from "./pokemons-routing.module";
   ],
   imports: [
     CommonModule,
+    FormsModule,
     PokemonsRoutingModule
   ],
   providers: [PokemonService]

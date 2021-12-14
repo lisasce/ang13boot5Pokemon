@@ -10,11 +10,39 @@ import {Router} from "@angular/router";
 })
 export class ListComponent implements OnInit {
 
-  private pokemons: PokemonModel[] = [];
+  public pokemons: PokemonModel[] = [];
 
   constructor(private router: Router, private pokemonsService: PokemonService) { }
 
   ngOnInit(): void {
+    this.getPokemons();
   }
+
+  getPokemons(): void{
+    //this.pokemonsService.getPokemons().subscribe(valFromStream => this.pokemons = valFromStream);
+
+    this.pokemonsService.getPokemons().subscribe({
+      next: (pokemons) => {
+        this.pokemons = pokemons;
+      },
+      error: (error) => {
+        console.error(error.message);
+      }
+    })
+  }
+
+  selectPokemon(pokemon: PokemonModel): void {
+    console.log('pokemon selected ' + pokemon.name);
+    //const link = ['/pokemons', pokemon.id];
+    //this.router.navigate(link);
+  }
+
+  goToAdd(): void {
+    console.log('Add a Pokemon');
+    //const link = ['/pokemons/new'];
+    //this.router.navigate(link);
+  }
+
+
 
 }
