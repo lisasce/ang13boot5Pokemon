@@ -1,1 +1,43 @@
-<p>detail-pokemon works!</p>
+<p>detail-pokemon works! id: {{pokemon_id}} seas {{pokemon?.name}} !</p>
+
+<div class="container d-flex justify-content-center" *ngIf="pokemon && pokemon.id != null">
+
+    <div id="detailContent" >
+     <app-card-template [pokemon]="pokemon"></app-card-template>
+    </div>
+    <div class="card bg-light bg-gradient p-2">
+      <table class="">
+        <tbody>
+        <tr>
+          <td>Name</td>
+          <td><strong>{{ pokemon.name }}</strong></td>
+        </tr>
+        <tr>
+          <td>Hit points (HP)</td>
+          <td><strong>{{ pokemon.hp }}</strong></td>
+        </tr>
+        <tr>
+          <td>Combat power (CP)</td>
+          <td><strong>{{ pokemon.cp }}</strong></td>
+        </tr>
+        <tr>
+          <td>Type/s</td>
+          <td>
+             <span *ngFor='let type of pokemon.types'
+                   class="badge {{type | pokemonTypeColor}} bg-gradient m-1">
+                        {{ type }}
+             </span>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+      <div class="actions d-flex justify-content-around">
+        <button class="btn bg-teal-300 bg-gradient shadow-sm" (click)="goBack()">Back</button>
+        <button class="btn bg-yellow-100 bg-gradient shadow-sm" (click)="goEdit(pokemon)">Edit</button>
+        <button class="btn bg-red-100 bg-gradient shadow-sm" (click)="goDelete(pokemon)">Delete</button>
+      </div>
+    </div>
+</div>
+
+

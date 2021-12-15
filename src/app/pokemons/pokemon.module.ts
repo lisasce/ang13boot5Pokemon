@@ -14,6 +14,7 @@ import { FormTemplateComponent } from './components/form-template/form-template.
 import { SearchPokemonComponent } from './components/search-pokemon/search-pokemon.component';
 import { PokemonTypeColorPipe } from './pipes/pokemon-type-color.pipe';
 import { CardBorderDirective } from './directives/card-border.directive';
+import { CardTemplateComponent } from './components/card-template/card-template.component';
 
 
 
@@ -27,7 +28,8 @@ import { CardBorderDirective } from './directives/card-border.directive';
     FormTemplateComponent,
     SearchPokemonComponent,
     PokemonTypeColorPipe,
-    CardBorderDirective
+    CardBorderDirective,
+    CardTemplateComponent
   ],
   imports: [
     CommonModule,

@@ -9,8 +9,6 @@
 <!--search pokemon section END-->
 
 
-
-
 <!--show pokemon's list section-->
 
 <div class='container'>
@@ -24,29 +22,8 @@
          appCardBorder="#26A69A"
     >
 
-      <div class="card bg-light bg-gradient"
-           (click)="selectPokemon(pokemon)"
+      <app-card-template [pokemon]="pokemon" (click)="selectPokemon(pokemon)"></app-card-template>
 
-      >
-        <img [src]="pokemon.picture"
-             class="card-img-top"
-             alt="pokemon face">
-        <div class="card-body">
-          <h5 class="card-title mb-2">{{ pokemon.name }}</h5>
-
-          <div class="typeBox">
-            <p class="card-text">
-                        <span *ngFor='let type of pokemon.types'
-                              class="badge {{type | pokemonTypeColor}} bg-gradient m-1">
-                        {{ type }}
-                        </span>
-            </p>
-          </div>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated: {{ pokemon.created | date:'shortDate' }}</small>
-        </div>
-      </div>
 
     </div>
 

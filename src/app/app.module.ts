@@ -25,7 +25,8 @@ import { PageNotFoundComponent } from './base/page-not-found/page-not-found.comp
     PageNotFoundComponent
   ],
   exports: [
-    LoaderComponent
+    LoaderComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
