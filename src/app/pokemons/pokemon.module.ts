@@ -12,6 +12,7 @@ import { EditPokemonComponent } from './components/edit-pokemon/edit-pokemon.com
 import { DetailPokemonComponent } from './components/detail-pokemon/detail-pokemon.component';
 import { FormTemplateComponent } from './components/form-template/form-template.component';
 import { SearchPokemonComponent } from './components/search-pokemon/search-pokemon.component';
+import { PokemonTypeColorPipe } from './pipes/pokemon-type-color.pipe';
 
 
 
@@ -23,7 +24,8 @@ import { SearchPokemonComponent } from './components/search-pokemon/search-pokem
     EditPokemonComponent,
     DetailPokemonComponent,
     FormTemplateComponent,
-    SearchPokemonComponent
+    SearchPokemonComponent,
+    PokemonTypeColorPipe
   ],
   imports: [
     CommonModule,

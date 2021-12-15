@@ -7,5 +7,7 @@ export enum PokemonTypes {
   bug ='Bug',
   flying ='Flying',
   electric ='Electric',
-  fairy ='Fairy'
+  fairy ='Fairy',
+  psy = 'Psy',
+  fighting= 'Fighting'
 }
