@@ -36,7 +36,8 @@
 
           <div class="typeBox">
             <p class="card-text">
-                        <span *ngFor='let type of pokemon.types' class="badge {{type | pokemonTypeColor}} bg-gradient m-1">
+                        <span *ngFor='let type of pokemon.types'
+                              class="badge {{type | pokemonTypeColor}} bg-gradient m-1">
                         {{ type }}
                         </span>
             </p>
