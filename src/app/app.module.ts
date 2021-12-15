@@ -13,6 +13,7 @@ import {PokemonModule} from "./pokemons/pokemon.module";
 import { LoaderComponent } from './base/loader/loader.component';
 import { LoginComponent } from './base/authentification/login/login.component';
 import {LoginRoutingModule} from "./base/authentification/login-routing/login-routing.module";
+import { PageNotFoundComponent } from './base/page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {LoginRoutingModule} from "./base/authentification/login-routing/login-ro
     AppComponent,
     NavbarComponent,
     LoaderComponent,
-    LoginComponent
+    LoginComponent,
+    PageNotFoundComponent
   ],
   exports: [
     LoaderComponent
