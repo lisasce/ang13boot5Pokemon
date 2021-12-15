@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './base/navbar/navbar.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 import {HttpClientModule} from "@angular/common/http";
@@ -10,12 +10,17 @@ import {InMemoryDataService} from "./pokemons/services/in-memory-data.service";
 import {HttpClientInMemoryWebApiModule} from "angular-in-memory-web-api";
 import {FormsModule} from "@angular/forms";
 import {PokemonModule} from "./pokemons/pokemon.module";
+import { LoaderComponent } from './base/loader/loader.component';
+import { LoginComponent } from './base/authentification/login/login.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    LoaderComponent,
+    LoginComponent
+
   ],
   imports: [
     BrowserModule,
