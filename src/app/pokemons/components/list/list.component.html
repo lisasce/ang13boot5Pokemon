@@ -1,11 +1,10 @@
 <!--add pokemon section-->
-
-<p>add</p>
+<app-add-pokemon></app-add-pokemon>
 
 
 <!--search pokemon section START-->
 
-<p>search</p>
+<app-search-pokemon></app-search-pokemon>
 
 <!--search pokemon section END-->
 
@@ -20,10 +19,9 @@
 
   <div class="d-flex justify-content-around flex-wrap">
 
-    <div *ngFor='let pokemon of pokemons' class="m-1 shadow-sm p-3 mb-5 bg-body rounded">
+    <div *ngFor='let pokemon of pokemons' class="m-1 shadow p-3 mb-5 bg-body rounded">
 
       <div class="card bg-light bg-gradient"
-           style="width: 12rem;"
            (click)="selectPokemon(pokemon)"
       >
         <img [src]="pokemon.picture"

@@ -12,6 +12,7 @@ import {FormsModule} from "@angular/forms";
 import {PokemonModule} from "./pokemons/pokemon.module";
 import { LoaderComponent } from './base/loader/loader.component';
 import { LoginComponent } from './base/authentification/login/login.component';
+import {LoginRoutingModule} from "./base/authentification/login-routing/login-routing.module";
 
 
 @NgModule({
@@ -20,7 +21,9 @@ import { LoginComponent } from './base/authentification/login/login.component';
     NavbarComponent,
     LoaderComponent,
     LoginComponent
-
+  ],
+  exports: [
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ import { LoginComponent } from './base/authentification/login/login.component';
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {dataEncapsulation: false}), // option to define format returned
     NgbModule,
     PokemonModule,
-    AppRoutingModule // si on met celle la avant on aura que du 404
+    LoginRoutingModule,
+    AppRoutingModule // should be last otherwise: 404
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {PokemonModel} from "../../pokemonStucture/PokemonModel";
 
 @Component({
   selector: 'app-form-template',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./form-template.component.scss']
 })
 export class FormTemplateComponent implements OnInit {
+
+  @Input() pokemon?: PokemonModel;
 
   constructor() { }
 

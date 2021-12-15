@@ -33,14 +33,14 @@ export class ListComponent implements OnInit {
 
   selectPokemon(pokemon: PokemonModel): void {
     console.log('pokemon selected ' + pokemon.name);
-    //const link = ['/pokemons', pokemon.id];
-    //this.router.navigate(link);
+    const link = ['/pokemons', pokemon.id];
+    this.router.navigate(link);
   }
 
   goToAdd(): void {
     console.log('Add a Pokemon');
-    //const link = ['/pokemons/new'];
-    //this.router.navigate(link);
+    const link = ['/pokemons/new'];
+    this.router.navigate(link);
   }
 
 

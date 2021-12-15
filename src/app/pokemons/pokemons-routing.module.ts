@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import {ListComponent} from "./components/list/list.component";
 import {RouterModule, Routes} from "@angular/router";
+import {AddPokemonComponent} from "./components/add-pokemon/add-pokemon.component";
+import {EditPokemonComponent} from "./components/edit-pokemon/edit-pokemon.component";
+import {DetailPokemonComponent} from "./components/detail-pokemon/detail-pokemon.component";
 
 const pokemonsRoutes: Routes = [
   {
@@ -8,10 +11,10 @@ const pokemonsRoutes: Routes = [
     //canActivate: [AuthGuard],
     children: [
       { path: 'all', component: ListComponent },
-      //{ path: 'new', component: AddPokemonComponent },
+      { path: 'new', component: AddPokemonComponent },
 
-      //{ path: 'edit/:id', component: EditPokemonComponent},
-     // { path: ':id', component: DetailPokemonComponent }
+      { path: 'edit/:id', component: EditPokemonComponent},
+      { path: ':id', component: DetailPokemonComponent }
     ]
   }
 ];

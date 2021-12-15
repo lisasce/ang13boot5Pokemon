@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   }
 
   goHome(): void {
-    // this.router.navigate(['/pokemons/all']);
+    this.router.navigate(['/pokemons/all']);
   }
 
   logout(): void  {
