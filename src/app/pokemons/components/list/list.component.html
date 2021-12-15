@@ -13,27 +13,41 @@
 
 
 <!--show pokemon's list section-->
-<p>list list</p>
+
 <div class='container'>
 
-  <div *ngFor='let pokemon of pokemons'>
+  <h3 class="d-flex justify-content-center m-5">My Pokemon Collection</h3>
 
-    <div class="card"
-         style="width: 18rem;"
-         (click)="selectPokemon(pokemon)"
-    >
-      <img [src]="pokemon.picture"
-           class="card-img-top"
-           alt="pokemon face">
-      <div class="card-body">
-        <h5 class="card-title">{{ pokemon.name }}</h5>
-        <p class="card-text"><small>{{ pokemon.created | date:'fullDate' }}</small></p>
+  <div class="d-flex justify-content-around flex-wrap">
+
+    <div *ngFor='let pokemon of pokemons' class="m-1 shadow-sm p-3 mb-5 bg-body rounded">
+
+      <div class="card bg-light bg-gradient"
+           style="width: 12rem;"
+           (click)="selectPokemon(pokemon)"
+      >
+        <img [src]="pokemon.picture"
+             class="card-img-top"
+             alt="pokemon face">
+        <div class="card-body">
+          <h5 class="card-title mb-2">{{ pokemon.name }}</h5>
+
+          <div class="typeBox">
+            <p class="card-text">
+                        <span *ngFor='let type of pokemon.types' class="badge bg-secondary m-1">
+                        {{ type }}
+                        </span>
+            </p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Last updated: {{ pokemon.created | date:'shortDate' }}</small>
+        </div>
       </div>
+
     </div>
 
   </div>
-
-
 
 
 </div>
