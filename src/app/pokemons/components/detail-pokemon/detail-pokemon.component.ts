@@ -23,14 +23,18 @@ export class DetailPokemonComponent implements OnInit {
   }
 
   goBack() {
-    //
+    this.pokemon = this.pokemonService.newPokemon();
+    this.pokemon_id = null;
+    this.router.navigate(['/pokemons/all']);
   }
 
   goEdit(pokemon: PokemonModel) {
-    //
+    const link = ['/pokemons/edit', pokemon.id]
+    this.router.navigate(link);
   }
 
   goDelete(pokemon: PokemonModel) {
-    //
+    //this.pokemonsService.deletePokemon(pokemon)
+    //             .subscribe(_ => this.goBack());
   }
 }
