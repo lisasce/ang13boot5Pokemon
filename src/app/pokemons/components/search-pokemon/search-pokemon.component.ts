@@ -12,4 +12,7 @@ export class SearchPokemonComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  search(value: string) {
+    //
+  }
 }

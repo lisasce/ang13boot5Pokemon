@@ -1,1 +1,27 @@
-<p>search-pokemon works!</p>
+<div class="container d-flex justify-content-center">
+  <div class="card text-center bg-teal-300 bg-gradient p-3">
+
+    <div class="card-title">
+      <h4>Search a Pokemon here:</h4>
+       <div *ngIf="!searchBox.value" class="">
+        <app-loader></app-loader>
+      </div>
+
+    </div>
+
+    <div class="card-content">
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="nameLabel">Search:</span>
+      <input #searchBox (keyup)="search(searchBox.value)"
+             type=""
+             class=""
+             placeholder="Search for a pokemon here"
+             aria-label="searchLabel"
+             aria-describedby="search"
+             id="search"
+      >
+    </div>
+    </div>
+    </div>
+
+</div>

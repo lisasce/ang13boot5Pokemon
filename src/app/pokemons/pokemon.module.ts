@@ -15,6 +15,7 @@ import { SearchPokemonComponent } from './components/search-pokemon/search-pokem
 import { PokemonTypeColorPipe } from './pipes/pokemon-type-color.pipe';
 import { CardBorderDirective } from './directives/card-border.directive';
 import { CardTemplateComponent } from './components/card-template/card-template.component';
+import {SharedModule} from "../base/shared/shared.module";
 
 
 
@@ -32,8 +33,7 @@ import { CardTemplateComponent } from './components/card-template/card-template.
     CardTemplateComponent
   ],
   imports: [
-    CommonModule,
-    FormsModule,
+    SharedModule,
     PokemonsRoutingModule
   ],
   providers: [PokemonService]
