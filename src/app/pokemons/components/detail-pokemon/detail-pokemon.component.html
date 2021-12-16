@@ -1,38 +1,47 @@
-<p>detail-pokemon works! id: {{pokemon_id}} seas {{pokemon?.name}} !</p>
+<div class="container d-flex justify-content-center mb-2">
+  <h3>Pokemon Details</h3>
+</div>
 
-<div class="container d-flex justify-content-center" *ngIf="pokemon && pokemon.id != null">
 
-    <div id="detailContent" >
+<div class="container d-flex justify-content-center flex-wrap mt-sm-2 mt-md-4" *ngIf="pokemon && pokemon.id != null">
+
+    <div id="detailContent"  class="col-sm-10 col-md-3">
      <app-card-template [pokemon]="pokemon"></app-card-template>
     </div>
-    <div class="card bg-light bg-gradient p-2">
-      <table class="">
-        <tbody>
-        <tr>
-          <td>Name</td>
-          <td><strong>{{ pokemon.name }}</strong></td>
-        </tr>
-        <tr>
-          <td>Hit points (HP)</td>
-          <td><strong>{{ pokemon.hp }}</strong></td>
-        </tr>
-        <tr>
-          <td>Combat power (CP)</td>
-          <td><strong>{{ pokemon.cp }}</strong></td>
-        </tr>
-        <tr>
-          <td>Type/s</td>
-          <td>
+    <div class="card bg-light bg-gradient p-4 col-sm-10 col-md-3 d-flex flex-column justify-content-between">
+      <div class="">
+        <h5><u>Details of {{ pokemon.name }}</u></h5>
+
+        <div class="mt-2">
+          <h6>What are Pokemon?</h6>
+          <p>Pokemon are creatures of all shapes and sizes who live in the wild or alongside humans. For the most part, Pokemon do not speak except to utter their names.</p>
+        </div>
+
+        <div class="d-flex justify-content-between mt-1">
+          <span>Name:</span>
+          <span><strong>{{ pokemon.name }}</strong></span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span>Hit points (HP):</span>
+          <span><strong>{{ pokemon.hp }}</strong></span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span>Combat power (CP):</span>
+          <span><strong>{{ pokemon.cp }}</strong></span>
+        </div>
+        <div >
+          <p>Type/s:</p>
+          <div class="d-flex justify-content-start">
              <span *ngFor='let type of pokemon.types'
                    class="badge {{type | pokemonTypeColor}} bg-gradient m-1">
                         {{ type }}
              </span>
-          </td>
-        </tr>
+          </div>
+        </div>
 
-        </tbody>
-      </table>
-      <div class="actions d-flex justify-content-around">
+
+      </div>
+      <div class="actions d-flex justify-content-around flex-wrap mt-2">
         <button class="btn bg-teal-300 bg-gradient shadow-sm" (click)="goBack()">Back</button>
         <button class="btn bg-yellow-100 bg-gradient shadow-sm" (click)="goEdit(pokemon)">Edit</button>
         <button class="btn bg-red-100 bg-gradient shadow-sm" (click)="goDelete(pokemon)">Delete</button>
