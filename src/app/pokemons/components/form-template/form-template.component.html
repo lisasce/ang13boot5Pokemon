@@ -1,1 +1,79 @@
-<p>form-template works!</p>
+<div class="card-body d-flex justify-content-center">
+  <form (ngSubmit)="onSubmit()" [formGroup]="pokemonForm">
+
+<!-- Pokemon name  -->
+
+    <div class="input-group mb-3">
+
+      <span class="input-group-text">Name:</span>
+      <input type="text"
+             class="form-control"
+             placeholder="name"
+             aria-label="nameLabel"
+             aria-describedby="name"
+             formControlName="name"
+
+      >
+    </div>
+    <div class="alert alert-danger" role="alert"
+         *ngIf="false">
+      <small>ERROR</small>
+    </div>
+
+    <!-- Pokemon HP  -->
+    <div class="input-group mb-3">
+
+      <span class="input-group-text">Hit points (HP):</span>
+      <input type="text"
+             class="form-control"
+             placeholder="hp"
+             aria-label="hpLabel"
+             aria-describedby="hp"
+             formControlName="hp"
+
+      >
+    </div>
+    <div class="alert alert-danger" role="alert"
+         *ngIf="false">
+      <small>ERROR</small>
+    </div>
+
+    <!-- Pokemon CP  -->
+    <div class="input-group mb-3">
+
+      <span class="input-group-text">Combat power (CP):</span>
+      <input type="text"
+             class="form-control"
+             placeholder="cp"
+             aria-label="cpLabel"
+             aria-describedby="cp"
+             formControlName="cp"
+
+      >
+    </div>
+    <div class="alert alert-danger" role="alert"
+         *ngIf="false">
+      <small>ERROR</small>
+    </div>
+
+
+    <div class="text-center m-2">
+      <button
+        id="submitButton"
+        type="submit"
+        class="btn bg-teal-100 bg-gradient shadow-sm"
+        [disabled]="pokemonForm.invalid"
+      >
+        Login
+      </button></div>
+      <div class="alert alert-danger" role="alert"
+           *ngIf="pokemonForm.touched && pokemonForm.invalid">
+        <small>ERROR</small>
+      </div>
+
+
+
+
+  </form>
+
+</div>
