@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-pokemon.component.scss']
 })
 export class SearchPokemonComponent implements OnInit {
+  pokemonsLoading = true;
 
   constructor() { }
 
