@@ -14,19 +14,24 @@
 
 
       <div class="card-body">
-        <form #loginForm="ngForm" (submit)="login()">
+        <form (ngSubmit)="login(loginForm.value)" #loginForm="ngForm">
 
           <div class="input-group mb-3">
-            <span class="input-group-text" id="nameLabel">Name:</span>
+            <span class="input-group-text">Name:</span>
             <input type="text"
                    class="form-control"
                    placeholder="name"
                    aria-label="nameLabel"
                    aria-describedby="name"
-                   [(ngModel)]="name"
-                   id="name"
+                   [(ngModel)]="user.name"
+                   name="name"
                    required
+                   #name="ngModel"
             >
+          </div>
+          <div class="alert alert-danger" role="alert"
+               *ngIf="name.touched &&  name.hasError">
+            <small>name is required</small>
           </div>
 
           <div class="input-group mb-3">
@@ -37,19 +42,23 @@
                    placeholder="password"
                    aria-label="pwLabel"
                    aria-describedby="password"
-                   [(ngModel)]="password"
-                   id="password"
+                   [(ngModel)]="user.password"
+                   name="password"
+                   #password="ngModel"
                    required
             >
           </div>
-
+          <div class="alert alert-danger" role="alert"
+            *ngIf="password.touched && password.hasError">
+            <small>password is required</small>
+          </div>
 
           <div class=" mt-2">
             <button
               id="loginButton"
-              type="button"
+              type="submit"
               class="btn bg-teal-100 bg-gradient shadow-sm"
-              *ngIf="!authServiceCheckLogin"
+              [disabled]="loginForm.invalid"
             >
               Login
             </button>
