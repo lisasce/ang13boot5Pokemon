@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import {InMemoryDataService} from "./pokemons/services/in-memory-data.service";
 import {HttpClientInMemoryWebApiModule} from "angular-in-memory-web-api";
 import {PokemonModule} from "./pokemons/pokemon.module";
-import {SharedModule} from "./base/shared/shared.module";
+import {SharedModule} from "./base/shared.module";
 import {AuthentificationModule} from "./base/authentification/authentification.module";
 
 
