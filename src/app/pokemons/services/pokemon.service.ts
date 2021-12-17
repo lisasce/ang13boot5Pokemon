@@ -16,16 +16,23 @@ export class PokemonService {
   }
 
   public newPokemon(
+    created: Date,
     id = null,
     hp = 45,
     cp = 25,
     name = "Random Name",
     picture = "https://cdn.pixabay.com/photo/2016/08/15/00/50/pokeball-1594373_960_720.png",
-    types: Array<PokemonTypes> = [PokemonTypes.normal],
-    created = new Date()
+    types: Array<PokemonTypes> = [PokemonTypes.normal]
   ): PokemonModel {
-    const pokemon: PokemonModel = {id, hp, cp, name, picture, types, created};
-    return pokemon;
+    return {
+      id,
+      hp,
+      cp,
+      name,
+      picture,
+      types,
+      created
+    };
   }
 
   public getPokemons(): Observable<PokemonModel[ ]> {

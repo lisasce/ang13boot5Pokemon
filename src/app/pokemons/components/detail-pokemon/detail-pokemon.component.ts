@@ -10,7 +10,7 @@ import {PokemonService} from "../../services/pokemon.service";
   styleUrls: ['./detail-pokemon.component.scss']
 })
 export class DetailPokemonComponent implements OnInit {
-  public pokemon: PokemonModel = this.pokemonService.newPokemon(); // default pokemon
+  public pokemon: PokemonModel = this.pokemonService.newPokemon(new Date()); // default pokemon
   public pokemon_id = this.route.snapshot.params['id'];
 
   constructor(private route: ActivatedRoute, private router: Router, private pokemonService: PokemonService) {
@@ -23,7 +23,7 @@ export class DetailPokemonComponent implements OnInit {
   }
 
   goBack() {
-    this.pokemon = this.pokemonService.newPokemon();
+    this.pokemon = this.pokemonService.newPokemon(new Date());
     this.pokemon_id = null;
     this.router.navigate(['/pokemons/all']);
   }

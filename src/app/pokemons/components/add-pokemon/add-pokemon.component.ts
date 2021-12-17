@@ -13,7 +13,7 @@ export class AddPokemonComponent implements OnInit {
   constructor(private pokemonService: PokemonService) { }
 
   ngOnInit(): void {
-    this.pokemon = this.pokemonService.newPokemon();
+    this.pokemon = this.pokemonService.newPokemon(new Date());
   }
 
 }
