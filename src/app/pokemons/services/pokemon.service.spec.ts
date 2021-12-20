@@ -3,8 +3,10 @@ import {TestBed} from '@angular/core/testing';
 import {PokemonService} from './pokemon.service';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {PokemonTypes} from "../pokemonStucture/pokemon-types";
+import {PokemonModel} from "../pokemonStucture/PokemonModel";
+import {Observable} from "rxjs";
 
-fdescribe('PokemonService', () => {
+describe('PokemonService', () => {
   let service: PokemonService;
 
   beforeEach(() => {
@@ -51,18 +53,42 @@ fdescribe('PokemonService', () => {
 
 
   describe('getPokemons', () => {
+    it('should return an Array', () => {
+      // given
 
+
+      // when
+
+      // then
+      expect();
+    });
   });
 
 
   describe('getPokemon', () => {
+    it('should return 1 pokemon', () => {
+      // given
+      const id = 3;
+      // when
+      const pokemon3 = service.getPokemon(3);
+      // then
 
+     // expect(pokemon3.id).toBe(3);
+    });
   });
 
 
   describe('getPokemonTypes', () => {
+    it('should an Array of string', () => {
+      // given
 
+      // when
+      const types = service.getPokemonTypes();
+      // then
+      expect(typeof (types[0])).toEqual(jasmine.any(String));
+    });
   });
+
 
 
 });
