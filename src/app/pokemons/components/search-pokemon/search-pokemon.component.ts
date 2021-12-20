@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {PokemonModel} from "../../pokemonStucture/PokemonModel";
+import {debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap, tap} from "rxjs";
+import {Router} from "@angular/router";
+import {PokemonService} from "../../services/pokemon.service";
 
 @Component({
   selector: 'app-search-pokemon',
@@ -6,14 +10,40 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-pokemon.component.scss']
 })
 export class SearchPokemonComponent implements OnInit {
-  pokemonsLoading = true;
+  pokemonsLoading = false;
+  noPokemon = false;
 
-  constructor() { }
+  private searchTerms$ = new Subject<string>();
+  public pokemons$: Observable<PokemonModel[]>;
+
+  constructor(private router: Router, private pokemonService: PokemonService) {
+    this.pokemons$ = this.searchTerms$.pipe(
+      // wait 300ms between each request
+      debounceTime(300),
+      // ignore search if same as before
+      distinctUntilChanged(),
+      // return result list depending on term string
+      switchMap((term: string) => this.pokemonService.searchPokemons(term)),
+      tap(() => this.pokemonsLoading= false),
+      tap(result => {
+        if (!result?.length){
+          this.noPokemon = true;
+        }
+      })
+    );
+  }
 
   ngOnInit(): void {
   }
 
-  search(value: string) {
-    //
+  public search(searchValue: string): void {
+    this.pokemonsLoading = true;
+    this.searchTerms$.next(searchValue);
   }
+
+  public goToDetail(pokemon: PokemonModel): void {
+    const link = ['/pokemons', pokemon.id];
+    this.router.navigate(link);
+  }
+
 }

@@ -41,7 +41,8 @@ export class PokemonService {
     }// si c'est vide
 
     return this.http.get<PokemonModel[]>(`${this.pokemonsUrl}/?name=${term}`).pipe(
-      tap(() => this.log(`found pokemons matching "${term}"`)),
+      tap(() => this.log(`you search with "${term}"`)
+      ),
       catchError(this.handleError<PokemonModel[]>('searchPokemons', []))
     );
   }

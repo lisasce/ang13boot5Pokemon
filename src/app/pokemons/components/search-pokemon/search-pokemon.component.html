@@ -24,6 +24,19 @@
       <p><em>Pokemon/s Loading...</em></p>
     </div>
 
-  </div>
+    <div class="list-group">
+      <a *ngFor="let pokemon of pokemons$ | async"
+         (click)="goToDetail(pokemon)"
+         class="list-group-item list-group-item-action list-group-item-light"
+      >
+        {{pokemon.name}}
+      </a>
+      <a *ngIf="noPokemon"
+         class="list-group-item list-group-item-action list-group-item-light text-danger"
+      >
+        Sorry, no pokemon's matching your search
+      </a>
+    </div>
 
+  </div>
 </div>
