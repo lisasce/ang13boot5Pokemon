@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PokemonModel} from "../../pokemonStucture/PokemonModel";
 import {debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap, tap} from "rxjs";
 import {Router} from "@angular/router";
@@ -16,6 +16,8 @@ export class SearchPokemonComponent implements OnInit {
   private searchTerms$ = new Subject<string>();
   public pokemons$: Observable<PokemonModel[]>;
 
+  @Output() pokemonsList = new EventEmitter<PokemonModel[]>();
+
   constructor(private router: Router, private pokemonService: PokemonService) {
     this.pokemons$ = this.searchTerms$.pipe(
       // wait 300ms between each request
@@ -26,9 +28,8 @@ export class SearchPokemonComponent implements OnInit {
       switchMap((term: string) => this.pokemonService.searchPokemons(term)),
       tap(() => this.pokemonsLoading= false),
       tap(result => {
-        if (!result?.length){
-          this.noPokemon = true;
-        }
+          this.noPokemon = !result?.length;
+          this.pokemonsList.emit(result);
       })
     );
   }

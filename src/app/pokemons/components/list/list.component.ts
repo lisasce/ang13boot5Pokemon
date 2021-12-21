@@ -19,8 +19,6 @@ export class ListComponent implements OnInit {
   }
 
   getPokemons(): void{
-    //this.pokemonsService.getPokemons().subscribe(valFromStream => this.pokemons = valFromStream);
-
     this.pokemonsService.getPokemons().subscribe({
       next: (pokemons) => {
         this.pokemons = pokemons;
@@ -44,5 +42,11 @@ export class ListComponent implements OnInit {
   }
 
 
-
+  checkList(pokemonsList: PokemonModel[]) {
+    if (pokemonsList.length > 0){
+      this.pokemons = pokemonsList;
+    } else {
+      this.getPokemons();
+    }
+  }
 }
