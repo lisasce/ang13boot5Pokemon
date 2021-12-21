@@ -8,12 +8,14 @@ import {PokemonService} from "../../services/pokemon.service";
   styleUrls: ['./add-pokemon.component.scss']
 })
 export class AddPokemonComponent implements OnInit {
-  public pokemon: PokemonModel | undefined;
+  public pokemon: PokemonModel;
 
-  constructor(private pokemonService: PokemonService) { }
+  constructor(private pokemonService: PokemonService) {
+    this.pokemon = this.pokemonService.newPokemon(new Date());
+  }
 
   ngOnInit(): void {
-    this.pokemon = this.pokemonService.newPokemon(new Date());
+
   }
 
 }

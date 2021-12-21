@@ -72,7 +72,6 @@ export class PokemonService {
     for (let value in PokemonTypes) {
       pokemonTypes.push(value);
     }
-    console.log(pokemonTypes);
     return pokemonTypes;
   }
   public deletePokemon(pokemon: PokemonModel): Observable<PokemonModel> {
