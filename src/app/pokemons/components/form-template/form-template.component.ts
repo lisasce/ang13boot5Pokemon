@@ -15,34 +15,43 @@ export class FormTemplateComponent implements OnInit {
 
   @Input() pokemon?: PokemonModel;
   public PokemonTypes = PokemonTypes;
+  isTypesFormInitialised = false;
 
   nameCtrl: FormControl;
   hpCtrl: FormControl;
   cpCtrl: FormControl;
-  //typesCtrl: FormControl;
+  types: FormArray;
   public pokemonForm: FormGroup;
 
 
   constructor(formbuilder: FormBuilder, private pokemonsService: PokemonService, private router: Router) {
+
+
+
     // build form in constructor
 
-    this.nameCtrl = formbuilder.control('', [Validators.required, Validators.minLength(3),Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9àéèç]{1,25}$')]);
-    this.hpCtrl = formbuilder.control('', [Validators.required, Validators.max(999),Validators.pattern('^[0-9]{1,3}$')]);
-    this.cpCtrl = formbuilder.control('', [Validators.required, Validators.max(99),Validators.pattern('^[0-9]{1,2}$')]);
+    this.nameCtrl = formbuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9àéèç]{1,25}$')]);
+    this.hpCtrl = formbuilder.control('', [Validators.required, Validators.max(999), Validators.pattern('^[0-9]{1,3}$')]);
+    this.cpCtrl = formbuilder.control('', [Validators.required, Validators.max(99), Validators.pattern('^[0-9]{1,2}$')]);
+    this.types = formbuilder.array([], [Validators.minLength(1),Validators.maxLength(3)]);
 
 
     this.pokemonForm = formbuilder.group({
       name: this.nameCtrl,
       hp: this.hpCtrl,
       cp: this.cpCtrl,
-      types: formbuilder.array([], [Validators.required])
+      types: this.types
     })
+
   }
 
   ngOnInit(): void {
+
   }
 
-  public isDefaultPokemonLoaded(): boolean{
+
+
+  public isDefaultPokemonLoaded(): boolean {
     const defaultPokemon = this.pokemonsService.newPokemon(new Date());
     return this.pokemon?.picture === defaultPokemon.picture;
   }
@@ -66,39 +75,61 @@ export class FormTemplateComponent implements OnInit {
   }
 
   hasType(type: PokemonTypes): boolean {
-    if (this.pokemon) {
-      const pokemonHasType = this.pokemon.types.map(typesEnum => typesEnum.valueOf()).includes(type);
-      return pokemonHasType;
+
+    if (this.pokemon && !this.isTypesFormInitialised && this.types.length == 0) {
+      this.pokemon.types.forEach(type => this.types.push(new FormControl(type)));
+      this.isTypesFormInitialised = true;
+      console.log(this.types.value);
     }
+
+      let typesInFormArray: boolean = false;
+
+      this.types.controls.forEach((item) => {
+        if (item.value == type) {
+          typesInFormArray = true;
+        }
+      });
+
+      if (typesInFormArray) {
+        return true;
+      }
     return false;
   }
 
-  selectType($event: any, type: PokemonTypes): void {
+  selectType($event: any): void {
 
-    if (this.pokemon) {
-      const checked = $event.target.checked;
-      if (checked) {
-        this.pokemon.types.push(type);
-        console.log(this.pokemon.types)
-      } else {
-        const index = this.pokemon.types.indexOf(type);
-        if (index > -1) {
-          this.pokemon.types.splice(index, 1);
+    this.types = this.pokemonForm.get('types') as FormArray;
+
+   if (this.pokemon && !this.isTypesFormInitialised && this.types.length == 0) {
+      this.pokemon.types.forEach(type => this.types.push(new FormControl(type)));
+      this.isTypesFormInitialised = true;
+      console.log(this.types);
+    }
+
+    if ($event.target.checked && this.types.length < 3) {
+      this.types.push(new FormControl($event.target.value));
+      console.log(this.types.value);
+    } else {
+      let i: number = 0;
+      this.types.controls.forEach((item) => {
+        if (item.value == $event.target.value) {
+          this.types.removeAt(i);
+          console.log(this.types.value)
+          return;
         }
-      }
+        i++;
+      });
     }
   }
 
-  isTypesValid(type: PokemonTypes): boolean {
-    if (this.pokemon){
-      if (this.pokemon.types.length === 1 && this.hasType(type)) {
-        return false;
-      }
-      if (this.pokemon.types.length >= 3 && !this.hasType(type)) {
-        return false;
-      }
+
+// max 3 checked
+  isTypesSelectable(type: PokemonTypes): boolean {
+     if (this.types.value.length >= 3 && !this.hasType(type)) {
+      return false;
     }
     return true;
   }
+
 
 }

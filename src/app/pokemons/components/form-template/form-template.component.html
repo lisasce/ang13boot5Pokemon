@@ -76,24 +76,27 @@
 
           <input class="form-check-input me-1"
                  type="checkbox"
-                 [value]="type"
+                 [value]="type.value"
                  [checked]="hasType(type.value)"
-                 (change)="selectType($event, type.value)"
-                 [disabled]="!isTypesValid(type.value)"
+                 (change)="selectType($event)"
+                 [disabled]="!isTypesSelectable(type.value)"
                  aria-label="..."
           >
           <span class="badge {{type.value | pokemonTypeColor}} bg-gradient m-1 ">{{type.value}}</span>
-        </label>
+                  </label>
       </div>
     </div>
-
+    <div class="alert alert-danger" role="alert"
+         *ngIf="types.invalid">
+      <small>checkbox invalid</small>
+    </div>
 
     <div class="text-center m-2">
       <button
         id="submitButton"
         type="submit"
         class="btn bg-teal-200 bg-gradient shadow-sm"
-        [disabled]="pokemonForm.invalid"
+        [disabled]="pokemonForm.untouched && pokemonForm.invalid"
       >
         Submit
       </button></div>
