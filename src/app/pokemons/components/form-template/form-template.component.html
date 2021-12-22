@@ -1,32 +1,42 @@
+<div class="card-img-top d-flex justify-content-center">
+  <img *ngIf="!isDefaultPokemonLoaded()"
+       [src]="pokemon?.picture"
+       class=""
+       alt="pokemon face">
+  <p class="text-center" *ngIf="isDefaultPokemonLoaded()">You will discover your pokemon's face<br>after submitting ;)</p>
+</div>
+
 <div class="card-body d-flex justify-content-center">
+
   <form (ngSubmit)="onSubmit()" [formGroup]="pokemonForm">
 
 <!-- Pokemon name  -->
 
     <div class="input-group mb-3">
 
-      <span class="input-group-text">Name:</span>
+      <span class="input-group-text bg-teal-200">Name:</span>
       <input type="text"
              class="form-control"
              [placeholder]="pokemon?.name"
+             [value]="pokemon?.name"
              aria-label="nameLabel"
              aria-describedby="name"
              formControlName="name"
-
       >
     </div>
     <div class="alert alert-danger" role="alert"
-         *ngIf="false">
-      <small>ERROR</small>
+         *ngIf="nameCtrl.dirty && nameCtrl.invalid">
+      <small>The name of your pokemon is needed (between 3 and 25 characters).</small>
     </div>
 
     <!-- Pokemon HP  -->
     <div class="input-group mb-3">
 
-      <span class="input-group-text">Hit points (HP):</span>
+      <span class="input-group-text bg-teal-200">Hit points (HP):</span>
       <input type="text"
              class="form-control"
-             placeholder="hp"
+             [placeholder]="pokemon?.hp"
+             [value]="pokemon?.hp"
              aria-label="hpLabel"
              aria-describedby="hp"
              formControlName="hp"
@@ -34,41 +44,45 @@
       >
     </div>
     <div class="alert alert-danger" role="alert"
-         *ngIf="false">
-      <small>ERROR</small>
+         *ngIf="hpCtrl.dirty && hpCtrl.invalid">
+      <small>The hit points (HP) of the pokemon have to be between 0 and 999.</small>
     </div>
 
     <!-- Pokemon CP  -->
-    <div class="input-group mb-3">
+    <div class="input-group mb-3 ">
 
-      <span class="input-group-text">Combat power (CP):</span>
+      <span class="input-group-text bg-teal-200">Combat power (CP):</span>
       <input type="text"
              class="form-control"
-             placeholder="cp"
+             [placeholder]="pokemon?.cp"
+             [value]="pokemon?.cp"
              aria-label="cpLabel"
              aria-describedby="cp"
              formControlName="cp"
-
       >
     </div>
+
     <div class="alert alert-danger" role="alert"
-         *ngIf="false">
-      <small>ERROR</small>
+         *ngIf="cpCtrl.dirty && cpCtrl.invalid">
+      <small>The combat power (CP) of the pokemon has to be between 0 and 99.</small>
     </div>
 
 
     <!-- Pokemon Types  -->
     <p>Pokemon possible types:</p>
     <div >
-      <div class="list-group " *ngFor='let type of PokemonTypes | keyvalue'>
-        <label  class="list-group-item " >
-          <input class="form-check-input me-1  "
+      <div class="list-group " *ngFor='let type of PokemonTypes | keyvalue' formArrayName="types">
+        <label  class="list-group-item bg-teal-200" >
+
+          <input class="form-check-input me-1"
                  type="checkbox"
                  [value]="type"
                  [checked]="hasType(type.value)"
+                 (change)="selectType($event, type.value)"
+                 [disabled]="!isTypesValid(type.value)"
                  aria-label="..."
           >
-         {{type.value}}
+          <span class="badge {{type.value | pokemonTypeColor}} bg-gradient m-1 ">{{type.value}}</span>
         </label>
       </div>
     </div>
@@ -78,7 +92,7 @@
       <button
         id="submitButton"
         type="submit"
-        class="btn bg-teal-100 bg-gradient shadow-sm"
+        class="btn bg-teal-200 bg-gradient shadow-sm"
         [disabled]="pokemonForm.invalid"
       >
         Submit
