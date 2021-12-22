@@ -88,7 +88,7 @@
     </div>
     <div class="alert alert-danger" role="alert"
          *ngIf="types.invalid">
-      <small>checkbox invalid</small>
+      <small>You must at least have one type.</small>
     </div>
 
     <div class="text-center m-2">
@@ -96,13 +96,11 @@
         id="submitButton"
         type="submit"
         class="btn bg-teal-200 bg-gradient shadow-sm"
-        [disabled]="pokemonForm.untouched && pokemonForm.invalid"
+        [disabled]="pokemonForm.invalid"
       >
         Submit
-      </button></div>
-      <div class="alert alert-danger" role="alert"
-           *ngIf="pokemonForm.touched && pokemonForm.invalid">
-        <small>ERROR</small>
+      </button>
+
       </div>
 
 
