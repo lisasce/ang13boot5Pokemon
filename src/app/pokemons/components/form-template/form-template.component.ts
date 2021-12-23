@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PokemonModel} from "../../pokemonStucture/PokemonModel";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {PokemonService} from "../../services/pokemon.service";
 import {Router} from "@angular/router";
 import {PokemonTypes} from "../../pokemonStucture/pokemon-types";
@@ -17,37 +17,59 @@ export class FormTemplateComponent implements OnInit {
   public PokemonTypes = PokemonTypes;
   isTypesFormInitialised = false;
 
-  nameCtrl: FormControl;
-  hpCtrl: FormControl;
-  cpCtrl: FormControl;
-  types: FormArray;
-  public pokemonForm: FormGroup;
-
-
-  constructor(formbuilder: FormBuilder, private pokemonsService: PokemonService, private router: Router) {
+  nameCtrl = new FormControl();
+  hpCtrl = new FormControl();
+  cpCtrl = new FormControl();
+  typesCtrl = new FormArray([]);
+  public pokemonForm = new FormGroup({});
 
 
 
-    // build form in constructor
 
-    this.nameCtrl = formbuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9àéèç]{1,25}$')]);
-    this.hpCtrl = formbuilder.control('', [Validators.required, Validators.max(999), Validators.pattern('^[0-9]{1,3}$')]);
-    this.cpCtrl = formbuilder.control('', [Validators.required, Validators.max(99), Validators.pattern('^[0-9]{1,2}$')]);
-    this.types = formbuilder.array([], []);
+  static typesLengthCheck(): ValidatorFn {
+    return (control: AbstractControl) => {
+      const controlArray = control as FormArray;
+      console.log(controlArray.value.length);
+      if (controlArray.value.length < 4 && controlArray.value.length > 0) {
+        return null;
+      }
+      return { lengthTypesNotOk: {
+          valid: false
+        }
+      };
+    }
+  }
 
 
-    this.pokemonForm = formbuilder.group({
-      name: this.nameCtrl,
-      hp: this.hpCtrl,
-      cp: this.cpCtrl,
-      types: this.types
-    })
+  constructor(private formbuilder: FormBuilder, private pokemonsService: PokemonService, private router: Router) {
+
 
   }
 
   ngOnInit(): void {
+    if (this.pokemon && !this.isTypesFormInitialised && this.typesCtrl.length == 0) {
+      this.pokemon.types.forEach(type => this.typesCtrl.push(new FormControl(type)));
+      this.isTypesFormInitialised = true;
+    }
+
+
+    this.nameCtrl = this.formbuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9àéèç]{1,25}$')]);
+    this.hpCtrl = this.formbuilder.control('', [Validators.required, Validators.max(999), Validators.pattern('^[0-9]{1,3}$')]);
+    this.cpCtrl = this.formbuilder.control('', [Validators.required, Validators.max(99), Validators.pattern('^[0-9]{1,2}$')]);
+    this.typesCtrl = this.formbuilder.array([], [ FormTemplateComponent.typesLengthCheck()]);
+
+
+    this.pokemonForm = this.formbuilder.group({
+      name: this.nameCtrl,
+      hp: this.hpCtrl,
+      cp: this.cpCtrl,
+      types: this.typesCtrl
+    })
+
+
 
   }
+
 
 
 
@@ -56,48 +78,43 @@ export class FormTemplateComponent implements OnInit {
     return this.pokemon?.picture === defaultPokemon.picture;
   }
 
+  public hasType(type: PokemonTypes): boolean {
 
-  hasType(type: PokemonTypes): boolean {
-
-    if (this.pokemon && !this.isTypesFormInitialised && this.types.length == 0) {
-      this.pokemon.types.forEach(type => this.types.push(new FormControl(type)));
+    if (this.pokemon && !this.isTypesFormInitialised && this.typesCtrl.length == 0) {
+      this.pokemon.types.forEach(type => this.typesCtrl.push(new FormControl(type)));
       this.isTypesFormInitialised = true;
-      console.log(this.types.value);
     }
 
-      let typesInFormArray: boolean = false;
+    let typesInFormArray: boolean = false;
 
-      this.types.controls.forEach((item) => {
-        if (item.value == type) {
-          typesInFormArray = true;
-        }
-      });
-
-      if (typesInFormArray) {
-        return true;
+    this.typesCtrl.controls.forEach((item) => {
+      if (item.value == type) {
+        typesInFormArray = true;
       }
+    });
+
+    if (typesInFormArray) {
+      return true;
+    }
     return false;
   }
 
-  selectType($event: any): void {
+  public selectType($event: any): void {
 
-    this.types = this.pokemonForm.get('types') as FormArray;
-
-   if (this.pokemon && !this.isTypesFormInitialised && this.types.length == 0) {
-      this.pokemon.types.forEach(type => this.types.push(new FormControl(type)));
+    if (this.pokemon && !this.isTypesFormInitialised && this.typesCtrl.length == 0) {
+      this.pokemon.types.forEach(type => this.typesCtrl.push(new FormControl(type)));
       this.isTypesFormInitialised = true;
-      console.log(this.types);
     }
 
-    if ($event.target.checked && this.types.length < 3) {
-      this.types.push(new FormControl($event.target.value));
-      console.log(this.types.value);
+    if ($event.target.checked && this.typesCtrl.length < 3) {
+      this.typesCtrl.push(new FormControl($event.target.value));
+      console.log(this.typesCtrl.value);
     } else {
       let i: number = 0;
-      this.types.controls.forEach((item) => {
+      this.typesCtrl.controls.forEach((item) => {
         if (item.value == $event.target.value) {
-          this.types.removeAt(i);
-          console.log(this.types.value)
+          this.typesCtrl.removeAt(i);
+          console.log(this.typesCtrl.value)
           return;
         }
         i++;
@@ -105,29 +122,29 @@ export class FormTemplateComponent implements OnInit {
     }
   }
 
-
 // max 3 checked
-  isTypesSelectable(type: PokemonTypes): boolean {
-     if (this.types.value.length >= 3 && !this.hasType(type)) {
+  public isTypesSelectable(type: PokemonTypes): boolean {
+    if (this.typesCtrl.value.length >= 3 && !this.hasType(type)) {
       return false;
     }
     return true;
   }
 
 
-  onSubmit(): void {
+  public onSubmit(): void {
     console.log(this.pokemonForm.value);
     // this.pokemonService.submitPokemon(this.pokemon.subscribe(()=> this.goBack());
   }
 
-  goBack(): void {
+  public goBack(): void {
     if (this.pokemon?.id) {
       const link = ['/pokemons', this.pokemon.id];
       this.router.navigate(link);
     }
   }
 
-  reset(): void {
+  // nedded???
+  public reset(): void {
     this.nameCtrl.setValue('');
     this.hpCtrl.setValue(0);
     this.cpCtrl.setValue(0);
