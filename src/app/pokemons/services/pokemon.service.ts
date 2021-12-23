@@ -88,7 +88,7 @@ export class PokemonService {
     );
   }
 
-  public submitPokemon(isDefaultPokemonPicture: boolean, pokemon: FormGroup): void {
+  public submitPokemon(isDefaultPokemonPicture: boolean, pokemon: PokemonModel): void {
     const link = ['/pokemons/all'];
 
     if (isDefaultPokemonPicture){
@@ -104,7 +104,7 @@ export class PokemonService {
 
   }
 
-  private addPokemon(pokemon: any): Observable<PokemonModel>{
+  private addPokemon(pokemon: PokemonModel): Observable<PokemonModel>{
     console.log(pokemon);
 
     const newPokemon = this.newPokemon(
