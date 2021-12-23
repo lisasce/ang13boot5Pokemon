@@ -3,6 +3,7 @@ import {PokemonTypes} from "../pokemonStucture/pokemon-types";
 import {PokemonModel} from "../pokemonStucture/PokemonModel";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, of, tap} from "rxjs";
+import {FormGroup} from "@angular/forms";
 
 // peut recevoir d'autres dependences
 @Injectable({
@@ -17,7 +18,7 @@ export class PokemonService {
 
   public newPokemon(
     created: Date,
-    id = null,
+    id = 0,
     hp = 45,
     cp = 25,
     name = "Random Name",
@@ -86,32 +87,45 @@ export class PokemonService {
     );
   }
 
-  public submitPokemon(pokemon: PokemonModel): Observable<PokemonModel> {
+  public submitPokemon(isDefaultPokemonPicture: boolean, pokemon: FormGroup): Observable<PokemonModel> {
 
-    if (!pokemon.id){
+    if (isDefaultPokemonPicture){
       return this.addPokemon(pokemon);
     }
     else {
-      return this.updatePokemon(pokemon);
+      return this.addPokemon(pokemon);
     }
 
   }
 
-  private addPokemon(pokemon: PokemonModel): Observable<PokemonModel> {
+  private addPokemon(pokemon: any): Observable<PokemonModel>{
+    console.log(pokemon);
 
-    pokemon.id = this.idGenerator();
-    pokemon.picture = this.pokemonUrlGenerator();
+    const newPokemon = this.newPokemon(
+      new Date(),
+      this.idGenerator(),
+      pokemon.hp,
+      pokemon.cp,
+      pokemon.name,
+      this.pokemonUrlGenerator(),
+      pokemon.types
+    );
+
+    console.log(newPokemon);
 
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
-    return this.http.post<PokemonModel>(this.pokemonsUrl, pokemon, httpOptions).pipe(
-      tap(pokemon => this.log(`added pokemon with id=${pokemon.id}`)),
+
+    // POSTET NOCH NIX
+
+    return this.http.post<PokemonModel>(this.pokemonsUrl, newPokemon, httpOptions).pipe(
+      tap(() => this.log(`added pokemon with id=${newPokemon.id}`)),
       catchError(this.handleError<PokemonModel>('addPokemon'))
     );
   }
 
-  private updatePokemon(pokemon: PokemonModel): Observable<PokemonModel> {
+  private updatePokemon(pokemon: FormGroup): Observable<PokemonModel> {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };

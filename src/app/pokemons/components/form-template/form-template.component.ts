@@ -116,22 +116,20 @@ export class FormTemplateComponent implements OnInit {
 
 
   public onSubmit(): void {
-    console.log(this.pokemonForm.value);
-    // this.pokemonService.submitPokemon(this.pokemon.subscribe(()=> this.goBack());
+    this.pokemonsService.submitPokemon(this.isDefaultPokemonLoaded(), this.pokemonForm.value);
+    //this.goBack();
   }
 
   public goBack(): void {
-    if (this.pokemon?.id) {
-      const link = ['/pokemons', this.pokemon.id];
-      this.router.navigate(link);
-    }
+    const link = ['/pokemons'];
+    this.router.navigate(link);
   }
 
-  // nedded???
   public reset(): void {
-    this.nameCtrl.setValue('');
-    this.hpCtrl.setValue(0);
-    this.cpCtrl.setValue(0);
+    this.nameCtrl.setValue('Random Name');
+    this.hpCtrl.setValue(45);
+    this.cpCtrl.setValue(25);
+    this.typesCtrl.setValue(['Normal']);
   }
 
 

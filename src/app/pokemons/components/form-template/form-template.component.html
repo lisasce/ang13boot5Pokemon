@@ -95,10 +95,19 @@
       <button
         id="submitButton"
         type="submit"
-        class="btn bg-teal-200 bg-gradient shadow-sm"
+        class="btn bg-teal-200 bg-gradient shadow-sm m-1"
         [disabled]="pokemonForm.invalid"
       >
         Submit
+      </button>
+
+      <button
+        id=""
+        type="button"
+        (click)="reset()"
+        class="btn bg-red-200 bg-gradient shadow-sm m-1"
+      >
+        Reset
       </button>
 
     </div>
