@@ -39,7 +39,7 @@ export class FormTemplateComponent implements OnInit {
   }
 
 
-  constructor(private formbuilder: FormBuilder, private pokemonsService: PokemonService, private router: Router) {
+  constructor(private formbuilder: FormBuilder, private pokemonsService: PokemonService) {
 
   }
 
@@ -117,13 +117,9 @@ export class FormTemplateComponent implements OnInit {
 
   public onSubmit(): void {
     this.pokemonsService.submitPokemon(this.isDefaultPokemonLoaded(), this.pokemonForm.value);
-    //this.goBack();
   }
 
-  public goBack(): void {
-    const link = ['/pokemons'];
-    this.router.navigate(link);
-  }
+
 
   public reset(): void {
     this.nameCtrl.setValue('Random Name');

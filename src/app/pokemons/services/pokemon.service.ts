@@ -4,6 +4,7 @@ import {PokemonModel} from "../pokemonStucture/PokemonModel";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, of, tap} from "rxjs";
 import {FormGroup} from "@angular/forms";
+import {Router} from "@angular/router";
 
 // peut recevoir d'autres dependences
 @Injectable({
@@ -13,7 +14,7 @@ export class PokemonService {
 
   private pokemonsUrl = 'api/pokemons';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   public newPokemon(
@@ -87,13 +88,18 @@ export class PokemonService {
     );
   }
 
-  public submitPokemon(isDefaultPokemonPicture: boolean, pokemon: FormGroup): Observable<PokemonModel> {
+  public submitPokemon(isDefaultPokemonPicture: boolean, pokemon: FormGroup): void {
+    const link = ['/pokemons/all'];
 
     if (isDefaultPokemonPicture){
-      return this.addPokemon(pokemon);
+      this.addPokemon(pokemon).subscribe(
+        () => {
+          this.router.navigate(link);
+        }
+      );
     }
     else {
-      return this.addPokemon(pokemon);
+      this.addPokemon(pokemon);
     }
 
   }
