@@ -1,2 +1,4 @@
 <h4 class="text-center mb-2">Edit your Pokemon</h4>
-<app-form-template [pokemon]="pokemon"></app-form-template>
+
+  <app-form-template *ngIf="pokemon" [pokemon]="pokemon"></app-form-template>
+

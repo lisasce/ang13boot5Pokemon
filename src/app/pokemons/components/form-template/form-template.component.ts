@@ -24,8 +24,6 @@ export class FormTemplateComponent implements OnInit {
   public pokemonForm = new FormGroup({});
 
 
-
-
   static typesLengthCheck(): ValidatorFn {
     return (control: AbstractControl) => {
       const controlArray = control as FormArray;
@@ -43,20 +41,21 @@ export class FormTemplateComponent implements OnInit {
 
   constructor(private formbuilder: FormBuilder, private pokemonsService: PokemonService, private router: Router) {
 
-
   }
 
   ngOnInit(): void {
-    if (this.pokemon && !this.isTypesFormInitialised && this.typesCtrl.length == 0) {
-      this.pokemon.types.forEach(type => this.typesCtrl.push(new FormControl(type)));
+
+    const ctrls: FormControl[] = [];
+
+    if (this.pokemon && !this.isTypesFormInitialised) {
+      this.pokemon.types.forEach(type => ctrls.push(new FormControl(type)));
       this.isTypesFormInitialised = true;
     }
-
 
     this.nameCtrl = this.formbuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9àéèç]{1,25}$')]);
     this.hpCtrl = this.formbuilder.control('', [Validators.required, Validators.max(999), Validators.pattern('^[0-9]{1,3}$')]);
     this.cpCtrl = this.formbuilder.control('', [Validators.required, Validators.max(99), Validators.pattern('^[0-9]{1,2}$')]);
-    this.typesCtrl = this.formbuilder.array([], [ FormTemplateComponent.typesLengthCheck()]);
+    this.typesCtrl = this.formbuilder.array(ctrls, [ FormTemplateComponent.typesLengthCheck()]);
 
 
     this.pokemonForm = this.formbuilder.group({
@@ -65,8 +64,6 @@ export class FormTemplateComponent implements OnInit {
       cp: this.cpCtrl,
       types: this.typesCtrl
     })
-
-
 
   }
 
@@ -79,12 +76,6 @@ export class FormTemplateComponent implements OnInit {
   }
 
   public hasType(type: PokemonTypes): boolean {
-
-    if (this.pokemon && !this.isTypesFormInitialised && this.typesCtrl.length == 0) {
-      this.pokemon.types.forEach(type => this.typesCtrl.push(new FormControl(type)));
-      this.isTypesFormInitialised = true;
-    }
-
     let typesInFormArray: boolean = false;
 
     this.typesCtrl.controls.forEach((item) => {
@@ -100,11 +91,6 @@ export class FormTemplateComponent implements OnInit {
   }
 
   public selectType($event: any): void {
-
-    if (this.pokemon && !this.isTypesFormInitialised && this.typesCtrl.length == 0) {
-      this.pokemon.types.forEach(type => this.typesCtrl.push(new FormControl(type)));
-      this.isTypesFormInitialised = true;
-    }
 
     if ($event.target.checked && this.typesCtrl.length < 3) {
       this.typesCtrl.push(new FormControl($event.target.value));
