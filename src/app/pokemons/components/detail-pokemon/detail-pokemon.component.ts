@@ -34,6 +34,6 @@ export class DetailPokemonComponent implements OnInit {
   }
 
   goDelete(pokemon: PokemonModel) {
-    this.pokemonService.deletePokemon(pokemon).subscribe(() => this.goBack());
+    this.pokemonService.deletePokemon(pokemon.id).subscribe(() => this.goBack());
   }
 }

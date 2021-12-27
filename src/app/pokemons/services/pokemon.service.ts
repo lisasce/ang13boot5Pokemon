@@ -74,14 +74,14 @@ export class PokemonService {
     }
     return pokemonTypes;
   }
-  public deletePokemon(pokemon: PokemonModel): Observable<PokemonModel> {
+  public deletePokemon(id: number): Observable<PokemonModel> {
 
-    const url = `${this.pokemonsUrl}/${pokemon.id}`;
+    const url = `${this.pokemonsUrl}/${id}`;
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
     return this.http.delete<PokemonModel>(url,httpOptions).pipe(
-      tap(() => this.log(`deleted pokemon id=${pokemon.id}`)),
+      tap(() => this.log(`deleted pokemon id=${id}`)),
       catchError(this.handleError<any>('deletePokemon'))
     );
   }

@@ -133,8 +133,6 @@ fdescribe('PokemonService', () => {
 
       // then
       expect(pokemonResult).toBe(fakePokemon3);
-
-
     });
   });
 
@@ -146,20 +144,37 @@ fdescribe('PokemonService', () => {
       // when
       const types = service.getPokemonTypes();
       // then
-      expect(typeof (types[0])).toEqual(jasmine.any(String));
+      expect(typeof (types[1])).toEqual(jasmine.any(String));
     });
+
+    it('should contain enum values', () => {
+      // given
+
+      // when
+      const types = service.getPokemonTypes();
+      // then
+      expect(types).toContain(PokemonTypes.normal.toLowerCase());
+    });
+
   });
 
 
   describe('deletePokemon', () => {
-    it('should delete 1 pokemon', () => {
+    it('should delete 1 specific pokemon', () => {
       // given
-      const id = 3;
+      const fakePokemon3 = {id: 3, hp: 45, cp: 33, name: 'fakePokemon', picture: 'seas', type: PokemonTypes.normal };
+      let pokemonResult = {};
       // when
-      const pokemon3 = service.getPokemon(3);
+      service.deletePokemon(fakePokemon3.id).subscribe(
+        result =>(pokemonResult = result)
+      );
       // then
+      http
+        .expectOne(`api/pokemons/${fakePokemon3.id}`)
+        .flush(fakePokemon3);
 
-      // expect(pokemon3.id).toBe(3);
+      // then
+      expect(pokemonResult).toBe(fakePokemon3);
     });
   });
 
