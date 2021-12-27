@@ -24,7 +24,7 @@ export class DetailPokemonComponent implements OnInit {
 
   goBack() {
     this.pokemon = this.pokemonService.createPokemon(new Date());
-    this.pokemon_id = null;
+    this.pokemon_id = 0;
     this.router.navigate(['/pokemons/all']);
   }
 
@@ -34,7 +34,6 @@ export class DetailPokemonComponent implements OnInit {
   }
 
   goDelete(pokemon: PokemonModel) {
-    //this.pokemonsService.deletePokemon(pokemon)
-    //             .subscribe(_ => this.goBack());
+    this.pokemonService.deletePokemon(pokemon).subscribe(() => this.goBack());
   }
 }
