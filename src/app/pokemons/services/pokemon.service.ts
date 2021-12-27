@@ -17,7 +17,7 @@ export class PokemonService {
   constructor(private http: HttpClient, private router: Router) {
   }
 
-  public newPokemon(
+  public createPokemon(
     created: Date,
     id = 0,
     hp = 45,
@@ -51,9 +51,9 @@ export class PokemonService {
 
   // CRUD methods:
 
-  public getPokemons(): Observable<PokemonModel[ ]> {
+  public getPokemonList(): Observable<PokemonModel[ ]> {
     return this.http.get<PokemonModel[]>(this.pokemonsUrl).pipe(
-      tap(pokemons => this.log(`fetched pokemons: ${pokemons}`)),
+      tap(() => this.log(`fetched pokemons`)),
       catchError(this.handleError(`getPokemons`, []))
     );
   }
@@ -88,26 +88,9 @@ export class PokemonService {
     );
   }
 
-  public submitPokemon(isDefaultPokemonPicture: boolean, pokemon: PokemonModel): void {
-    const link = ['/pokemons/all'];
 
-    if (isDefaultPokemonPicture){
-      this.addPokemon(pokemon).subscribe(
-        () => {
-          this.router.navigate(link);
-        }
-      );
-    }
-    else {
-      this.addPokemon(pokemon);
-    }
-
-  }
-
-  private addPokemon(pokemon: PokemonModel): Observable<PokemonModel>{
-    console.log(pokemon);
-
-    const newPokemon = this.newPokemon(
+  public addPokemon(pokemon: PokemonModel): Observable<PokemonModel>{
+    const newPokemon = this.createPokemon(
       new Date(),
       this.idGenerator(),
       pokemon.hp,
@@ -117,13 +100,9 @@ export class PokemonService {
       pokemon.types
     );
 
-    console.log(newPokemon);
-
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
-
-    // POSTET NOCH NIX
 
     return this.http.post<PokemonModel>(this.pokemonsUrl, newPokemon, httpOptions).pipe(
       tap(() => this.log(`added pokemon with id=${newPokemon.id}`)),
@@ -131,13 +110,23 @@ export class PokemonService {
     );
   }
 
-  private updatePokemon(pokemon: FormGroup): Observable<PokemonModel> {
+  public updatePokemon(pokemon: PokemonModel, updatedPokemonValues: PokemonModel): Observable<PokemonModel> {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
 
-    return this.http.put<PokemonModel>(this.pokemonsUrl, pokemon, httpOptions).pipe(
-      tap(updatedPokemon => this.log(`updated pokemon: ${updatedPokemon.name} with id=${updatedPokemon.id}`)),
+    const updatedPokemon = this.createPokemon(
+      new Date(),
+      pokemon.id,
+      updatedPokemonValues.hp || pokemon.hp,
+      updatedPokemonValues.cp ||  pokemon.cp,
+      updatedPokemonValues.name || pokemon.name,
+      pokemon.picture,
+      updatedPokemonValues.types || pokemon.types
+    );
+
+    return this.http.put<PokemonModel>(this.pokemonsUrl, updatedPokemon, httpOptions).pipe(
+      tap(updatedPokemon => this.log(`updated pokemon: ${updatedPokemon?.name} with id=${updatedPokemon.id}`)),
       catchError(this.handleError<any>('updatePokemon'))
     );
   }

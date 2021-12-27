@@ -28,7 +28,7 @@ describe('PokemonService', () => {
       // given
 
       // when
-      const defaultPokemon = service.newPokemon(new Date());
+      const defaultPokemon = service.createPokemon(new Date());
       // then
       expect(defaultPokemon).toBeTruthy();
     });
@@ -44,7 +44,7 @@ describe('PokemonService', () => {
       const created = new Date();
 
       // when
-      const defaultPokemon = service.newPokemon(created);
+      const defaultPokemon = service.createPokemon(created);
       // then
       expect(defaultPokemon).toEqual({id, hp, cp, name, picture, types, created});
     });

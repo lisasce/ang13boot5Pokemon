@@ -1,7 +1,7 @@
 import {PokemonTypes} from "./pokemon-types";
 
 export interface PokemonModel {
-  id: number | null;
+  id: number;
   hp: number; // pt vie
   cp: number; // pt degats
   name: string;

@@ -31,15 +31,15 @@ export class FormTemplateComponent implements OnInit {
       if (controlArray.value.length < 4 && controlArray.value.length > 0) {
         return null;
       }
-      return { lengthTypesNotOk: {
+      return {
+        lengthTypesNotOk: {
           valid: false
         }
       };
     }
   }
 
-
-  constructor(private formbuilder: FormBuilder, private pokemonsService: PokemonService) {
+  constructor(private formbuilder: FormBuilder, private pokemonsService: PokemonService, private router: Router) {
 
   }
 
@@ -55,7 +55,7 @@ export class FormTemplateComponent implements OnInit {
     this.nameCtrl = this.formbuilder.control(this.pokemon?.name, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9àéèç ]{1,25}$')]);
     this.hpCtrl = this.formbuilder.control(this.pokemon?.hp, [Validators.required, Validators.max(999), Validators.pattern('^[0-9]{1,3}$')]);
     this.cpCtrl = this.formbuilder.control(this.pokemon?.cp, [Validators.required, Validators.max(99), Validators.pattern('^[0-9]{1,2}$')]);
-    this.typesCtrl = this.formbuilder.array(ctrls, [ FormTemplateComponent.typesLengthCheck()]);
+    this.typesCtrl = this.formbuilder.array(ctrls, [FormTemplateComponent.typesLengthCheck()]);
 
 
     this.pokemonForm = this.formbuilder.group({
@@ -69,7 +69,7 @@ export class FormTemplateComponent implements OnInit {
 
 
   public isDefaultPokemonLoaded(): boolean {
-    const defaultPokemon = this.pokemonsService.newPokemon(new Date());
+    const defaultPokemon = this.pokemonsService.createPokemon(new Date());
     return this.pokemon?.picture === defaultPokemon.picture;
   }
 
@@ -92,13 +92,11 @@ export class FormTemplateComponent implements OnInit {
 
     if ($event.target.checked && this.typesCtrl.length < 3) {
       this.typesCtrl.push(new FormControl($event.target.value));
-      console.log(this.typesCtrl.value);
     } else {
       let i: number = 0;
       this.typesCtrl.controls.forEach((item) => {
         if (item.value == $event.target.value) {
           this.typesCtrl.removeAt(i);
-          console.log(this.typesCtrl.value)
           return;
         }
         i++;
@@ -116,10 +114,21 @@ export class FormTemplateComponent implements OnInit {
 
 
   public onSubmit(): void {
-    this.pokemonsService.submitPokemon(this.isDefaultPokemonLoaded(), this.pokemonForm.value);
+    if (this.isDefaultPokemonLoaded()) {
+      this.pokemonsService.addPokemon(this.pokemonForm.value).subscribe(
+        () => this.goBack()
+      )
+    } else if (this.pokemon) {
+      this.pokemonsService.updatePokemon(this.pokemon, this.pokemonForm.value).subscribe(
+        () => this.goBack()
+      )
+    }
   }
 
-
+  goBack(): void {
+    const link = ['/pokemons/all'];
+    this.router.navigate(link);
+  }
 
   public reset(): void {
     this.nameCtrl.setValue('Random Name');
@@ -127,6 +136,5 @@ export class FormTemplateComponent implements OnInit {
     this.cpCtrl.setValue(25);
     this.typesCtrl.setValue(['Normal']);
   }
-
 
 }

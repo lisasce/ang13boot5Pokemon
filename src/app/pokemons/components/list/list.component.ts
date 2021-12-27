@@ -19,7 +19,7 @@ export class ListComponent implements OnInit {
   }
 
   getPokemons(): void{
-    this.pokemonsService.getPokemons().subscribe({
+    this.pokemonsService.getPokemonList().subscribe({
       next: (pokemons) => {
         this.pokemons = pokemons;
       },
