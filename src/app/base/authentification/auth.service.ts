@@ -8,9 +8,8 @@ export class AuthService {
 
   _isLoggedIn: boolean = false;
 
-  constructor() { }
-
   public login(name: string, password: string): Observable<boolean> {
+    // do like you would make a real call to an auth service
     const loggedIn: boolean = (name === 'pokeball' && password === 'pokeball');
 
     return of(loggedIn).pipe(

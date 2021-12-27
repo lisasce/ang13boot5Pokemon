@@ -13,7 +13,6 @@ const pokemonsRoutes: Routes = [
     children: [
       { path: 'all', component: ListComponent },
       { path: 'new', component: AddPokemonComponent },
-
       { path: 'edit/:id', component: EditPokemonComponent},
       { path: ':id', component: DetailPokemonComponent }
     ]
