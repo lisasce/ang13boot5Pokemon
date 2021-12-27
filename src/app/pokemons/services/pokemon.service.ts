@@ -3,10 +3,8 @@ import {PokemonTypes} from "../pokemonStucture/pokemon-types";
 import {PokemonModel} from "../pokemonStucture/PokemonModel";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, of, tap} from "rxjs";
-import {FormGroup} from "@angular/forms";
-import {Router} from "@angular/router";
 
-// peut recevoir d'autres dependences
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +12,7 @@ export class PokemonService {
 
   private pokemonsUrl = 'api/pokemons';
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient) {
   }
 
   public createPokemon(
@@ -40,7 +38,7 @@ export class PokemonService {
   public searchPokemons(term: string): Observable<PokemonModel[]> {
     if(!term.trim()){
       return of([]);
-    }// si c'est vide
+    }
 
     return this.http.get<PokemonModel[]>(`${this.pokemonsUrl}/?name=${term}`).pipe(
       tap(() => this.log(`you search with "${term}"`)
@@ -126,7 +124,7 @@ export class PokemonService {
     );
 
     return this.http.put<PokemonModel>(this.pokemonsUrl, updatedPokemon, httpOptions).pipe(
-      tap(updatedPokemon => this.log(`updated pokemon: ${updatedPokemon?.name} with id=${updatedPokemon.id}`)),
+      tap(updatedPokemon => this.log(`updated pokemon: ${updatedPokemon?.name} with id=${updatedPokemon?.id}`)),
       catchError(this.handleError<any>('updatePokemon'))
     );
   }

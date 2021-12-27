@@ -52,7 +52,7 @@ export class FormTemplateComponent implements OnInit {
       this.isTypesFormInitialised = true;
     }
 
-    this.nameCtrl = this.formbuilder.control(this.pokemon?.name, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9àéèç ]{1,25}$')]);
+    this.nameCtrl = this.formbuilder.control(this.pokemon?.name, [Validators.required, Validators.minLength(3), Validators.maxLength(12), Validators.pattern('^[a-zA-Z0-9àéèç ]{1,12}$')]);
     this.hpCtrl = this.formbuilder.control(this.pokemon?.hp, [Validators.required, Validators.max(999), Validators.pattern('^[0-9]{1,3}$')]);
     this.cpCtrl = this.formbuilder.control(this.pokemon?.cp, [Validators.required, Validators.max(99), Validators.pattern('^[0-9]{1,2}$')]);
     this.typesCtrl = this.formbuilder.array(ctrls, [FormTemplateComponent.typesLengthCheck()]);
