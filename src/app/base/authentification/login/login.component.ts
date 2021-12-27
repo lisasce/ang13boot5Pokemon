@@ -9,10 +9,7 @@ import {UserModel} from "../user-model";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  authServiceCheckLogin= false;
-
   public message: string = 'You are not logged in. (pokeball/pokeball)';
-
   public user: UserModel = {
     name: '',
     password: ''
@@ -20,17 +17,34 @@ export class LoginComponent implements OnInit {
 
   public connectingStatus = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  logout() {
-    //
+  public setMessage() {
+    this.message = this.authService.checkLogin() ?
+      'You are connected.' : 'Name or Password incorrect.';
   }
 
-  login(user : UserModel) {
+  public logout() {
+    this.authService.logout();
+    this.setMessage();
+  }
+
+  public login(user : UserModel) {
     this.connectingStatus = true;
-    console.log(this.user)
+    this.message = 'Connecting ...';
+    this.authService.login(user.name, user.password).subscribe(
+      (isLoggedIn) => {
+      if (isLoggedIn) {
+        const redirect = this.router.getCurrentNavigation()?.extractedUrl?.queryParams?.['redirectUrl'] || '/pokemons/all';
+        this.router.navigate([redirect]);
+      } else {
+        this.connectingStatus = false;
+        this.user.password = '';
+      }
+      this.setMessage();
+    });
   }
 }

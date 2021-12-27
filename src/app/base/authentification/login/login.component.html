@@ -29,10 +29,6 @@
                    #name="ngModel"
             >
           </div>
-          <div class="alert alert-danger" role="alert"
-               *ngIf="name.touched &&  name.hasError">
-            <small>name is required</small>
-          </div>
 
           <div class="input-group mb-3">
                   <span class="input-group-text"
@@ -49,8 +45,8 @@
             >
           </div>
           <div class="alert alert-danger" role="alert"
-            *ngIf="password.touched && password.hasError">
-            <small>password is required</small>
+            *ngIf="name.touched && name.invalid || password.touched && password.invalid">
+            <small>{{message}}</small>
           </div>
 
           <div class=" mt-2">
@@ -59,12 +55,13 @@
               type="submit"
               class="btn bg-teal-100 bg-gradient shadow-sm"
               [disabled]="loginForm.invalid"
+              *ngIf="!authService.checkLogin()"
             >
               Login
             </button>
 
             <a (click)="logout()"
-               *ngIf="authServiceCheckLogin">
+               *ngIf="authService.checkLogin()">
               Logout
             </a>
           </div>

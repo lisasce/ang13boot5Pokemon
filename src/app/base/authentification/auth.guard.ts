@@ -10,22 +10,15 @@ export class AuthGuard implements CanActivate {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  canActivate(
+  public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
 
-  /*  const url : UrlTree = this.router.parseUrl('/login');
+    const url : UrlTree = this.router.parseUrl('/login');
     url.queryParams = {
       redirectUrl: state.url
     };
-    return this.authService.checkLogin() || url;*/
-
-
-    // || caste links auf boolean, wenn false dann weiter mit rechts
-// ?? "nullish coercion" nur wenn links === null|undefined|isNil dann rechts
-
-
+    return this.authService.checkLogin() || url;
   }
 
 }

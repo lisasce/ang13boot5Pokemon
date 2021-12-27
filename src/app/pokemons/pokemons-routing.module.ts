@@ -4,11 +4,12 @@ import {RouterModule, Routes} from "@angular/router";
 import {AddPokemonComponent} from "./components/add-pokemon/add-pokemon.component";
 import {EditPokemonComponent} from "./components/edit-pokemon/edit-pokemon.component";
 import {DetailPokemonComponent} from "./components/detail-pokemon/detail-pokemon.component";
+import {AuthGuard} from "../base/authentification/auth.guard";
 
 const pokemonsRoutes: Routes = [
   {
     path: 'pokemons',
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       { path: 'all', component: ListComponent },
       { path: 'new', component: AddPokemonComponent },
@@ -22,7 +23,6 @@ const pokemonsRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forChild(pokemonsRoutes)
-    //ne pas utiliser forRoute dans un sous module
   ],
   exports: [
     RouterModule

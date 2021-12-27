@@ -2,8 +2,8 @@
   <div class="container-fluid" >
     <a class="navbar-brand" (click)="goHome()">
       <img
-        [src]="isLoggedIn === true ? pokeballOpened : pokeball"
-        [class]="isLoggedIn === true ? pokeballOpened: '' "
+        [src]="authService._isLoggedIn ? pokeballOpened : pokeball"
+        [class]="authService._isLoggedIn ? pokeballOpened: '' "
         alt="Pokeball"
       >
       <span class="ms-2">{{myTitle}}</span>
@@ -23,7 +23,11 @@
       </button>
 
       <div id="navbarSupportedContent" [class]="{'collapse': collapsed, 'navbar-collapse': true}">
-        <span class="navbar-text">
+        <span class="navbar-text"
+              [ngStyle]="{'cursor':'pointer'}"
+              (click)="logout()"
+              *ngIf="authService._isLoggedIn"
+        >
           logout
         </span>
       </div>
