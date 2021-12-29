@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
 import {Router} from "@angular/router";
 import {AuthService} from "../authentification/auth.service";
@@ -30,6 +30,9 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  login(): void  {
+    this.router.navigate(['/login']);
+  }
 
   toggleCollapsed(): void {
     this.collapsed = !this.collapsed;

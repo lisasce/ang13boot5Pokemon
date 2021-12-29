@@ -30,6 +30,13 @@
         >
           logout
         </span>
+        <span class="navbar-text"
+              [ngStyle]="{'cursor':'pointer'}"
+              (click)="login()"
+              *ngIf="!(authService.checkLogin$() | async)"
+        >
+          login
+        </span>
       </div>
     </div>
   </div>
