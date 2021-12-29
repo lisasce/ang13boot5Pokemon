@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   public setMessage() {
-    this.message = this.authService.checkLogin() ?
+    this.message = this.authService.checkLogin$() ?
       'You are connected.' : 'Name or Password incorrect.';
   }
 
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   public login(user : UserModel) {
     this.connectingStatus = true;
     this.message = 'Connecting ...';
-    this.authService.login(user.name, user.password).subscribe(
+    this.authService.login$(user.name, user.password).subscribe(
       (isLoggedIn) => {
       if (isLoggedIn) {
         const redirect = this.router.getCurrentNavigation()?.extractedUrl?.queryParams?.['redirectUrl'] || '/pokemons/all';

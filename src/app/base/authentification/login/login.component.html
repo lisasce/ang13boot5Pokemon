@@ -55,15 +55,10 @@
               type="submit"
               class="btn bg-teal-100 bg-gradient shadow-sm"
               [disabled]="loginForm.invalid"
-              *ngIf="!authService.checkLogin()"
+              *ngIf="!(authService.checkLogin$() | async)"
             >
               Login
             </button>
-
-            <a (click)="logout()"
-               *ngIf="authService.checkLogin()">
-              Logout
-            </a>
           </div>
         </form>
       </div>

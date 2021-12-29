@@ -5,7 +5,7 @@ import {HttpClientTestingModule, HttpTestingController} from "@angular/common/ht
 import {PokemonTypes} from "../pokemonStucture/pokemon-types";
 import {PokemonModel} from "../pokemonStucture/PokemonModel";
 
-fdescribe('PokemonService', () => {
+describe('PokemonService', () => {
   let service: PokemonService;
   let http: HttpTestingController;
 
@@ -19,7 +19,7 @@ fdescribe('PokemonService', () => {
     http = TestBed.inject(HttpTestingController);
   });
 
-  afterEach(()=>{
+  afterEach(() => {
     http.verify();
   })
 
@@ -64,13 +64,13 @@ fdescribe('PokemonService', () => {
       let pokemonListResult: PokemonModel[] = [];
 
       // when
-        service.searchPokemons(searchTerm).subscribe(
+      service.searchPokemons(searchTerm).subscribe(
         result => (pokemonListResult = result)
-        );
+      );
 
-        http
-          .expectOne(`api/pokemons/?name=${searchTerm}`)
-          .flush(fakeArrayResponse);
+      http
+        .expectOne(`api/pokemons/?name=${searchTerm}`)
+        .flush(fakeArrayResponse);
 
       // then
       expect(pokemonListResult.length).toBe(1);
@@ -103,7 +103,7 @@ fdescribe('PokemonService', () => {
 
       // when
       service.getPokemonList().subscribe(
-        result =>(pokemonList = result)
+        result => (pokemonList = result)
       );
 
       http
@@ -122,9 +122,9 @@ fdescribe('PokemonService', () => {
       const id = 3;
       const fakePokemon3 = {id: 3, name: 'fakePokemon'};
       let pokemonResult = {};
-        // when
+      // when
       service.getPokemon(3).subscribe(
-        result =>(pokemonResult = result)
+        result => (pokemonResult = result)
       );
       // then
       http
@@ -162,11 +162,11 @@ fdescribe('PokemonService', () => {
   describe('deletePokemon', () => {
     it('should delete 1 specific pokemon', () => {
       // given
-      const fakePokemon3 = {id: 3, hp: 45, cp: 33, name: 'fakePokemon', picture: 'seas', type: PokemonTypes.normal };
+      const fakePokemon3 = {id: 3, hp: 45, cp: 33, name: 'fakePokemon', picture: 'seas', type: PokemonTypes.normal};
       let pokemonResult = {};
       // when
       service.deletePokemon(fakePokemon3.id).subscribe(
-        result =>(pokemonResult = result)
+        result => (pokemonResult = result)
       );
       // then
       http

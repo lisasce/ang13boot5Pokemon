@@ -2,8 +2,8 @@
   <div class="container-fluid" >
     <a class="navbar-brand" (click)="goHome()">
       <img
-        [src]="authService._isLoggedIn ? pokeballOpened : pokeball"
-        [class]="authService._isLoggedIn ? pokeballOpened: '' "
+        [src]="(authService.checkLogin$() | async) ? pokeballOpened : pokeball "
+        [class]="(authService.checkLogin$() | async) ? pokeballOpened: '' "
         alt="Pokeball"
       >
       <span class="ms-2">{{myTitle}}</span>
@@ -26,7 +26,7 @@
         <span class="navbar-text"
               [ngStyle]="{'cursor':'pointer'}"
               (click)="logout()"
-              *ngIf="authService._isLoggedIn"
+              *ngIf="(authService.checkLogin$() | async)"
         >
           logout
         </span>
