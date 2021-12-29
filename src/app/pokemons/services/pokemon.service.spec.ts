@@ -66,7 +66,7 @@ describe('PokemonService', () => {
       // when
       service.searchPokemons(searchTerm).subscribe(
         result => (pokemonListResult = result)
-        // wait async!!!
+        
       );
 
       http
