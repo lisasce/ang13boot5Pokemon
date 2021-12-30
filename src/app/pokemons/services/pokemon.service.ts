@@ -36,7 +36,7 @@ export class PokemonService {
   }
 
   public searchPokemons(term: string): Observable<PokemonModel[]> {
-    if(!term.trim()){
+    if (!term.trim()) {
       return of([]);
     }
 
@@ -74,20 +74,21 @@ export class PokemonService {
     }
     return pokemonTypes;
   }
+
   public deletePokemon(id: number): Observable<PokemonModel> {
 
     const url = `${this.pokemonsUrl}/${id}`;
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
-    return this.http.delete<PokemonModel>(url,httpOptions).pipe(
+    return this.http.delete<PokemonModel>(url, httpOptions).pipe(
       tap(() => this.log(`deleted pokemon id=${id}`)),
       catchError(this.handleError<any>('deletePokemon'))
     );
   }
 
 
-  public addPokemon(pokemon: PokemonModel): Observable<PokemonModel>{
+  public addPokemon(pokemon: PokemonModel): Observable<PokemonModel> {
     const newPokemon = this.createPokemon(
       new Date(),
       this.idGenerator(),
@@ -117,7 +118,7 @@ export class PokemonService {
       new Date(),
       pokemon.id,
       updatedPokemonValues.hp || pokemon.hp,
-      updatedPokemonValues.cp ||  pokemon.cp,
+      updatedPokemonValues.cp || pokemon.cp,
       updatedPokemonValues.name || pokemon.name,
       pokemon.picture,
       updatedPokemonValues.types || pokemon.types
@@ -144,7 +145,7 @@ export class PokemonService {
   }
 
   private pokemonUrlGenerator(): string {
-    const num = (Math.floor(Math.random() * 893) + 13).toString().padStart(3, '0');
+    const num = this.idGenerator().toString().padStart(3, '0');
     return `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${num}.png`;
   }
 

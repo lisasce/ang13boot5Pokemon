@@ -3,7 +3,7 @@ import {TestBed, waitForAsync} from '@angular/core/testing';
 import {AuthService} from './auth.service';
 import {mergeMap} from "rxjs";
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(() => {
