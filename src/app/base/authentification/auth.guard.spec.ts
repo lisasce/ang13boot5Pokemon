@@ -1,5 +1,4 @@
 import {TestBed, waitForAsync} from '@angular/core/testing';
-
 import {AuthGuard} from './auth.guard';
 import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
@@ -9,9 +8,6 @@ import {of} from "rxjs";
 describe('AuthGuard', () => {
   let guard: AuthGuard;
   let authService = jasmine.createSpyObj('AuthService', ['checkLogin$']);
-
-  let routeMock: any = {snapshot: {}};
-  let routeStateMock: any = {snapshot: {}, url: 'pokemons/all'};
 
   let routerMock = {navigate: jasmine.createSpy('navigate')}
 
