@@ -5,7 +5,7 @@ import {PokemonTypes} from "../pokemonStucture/pokemon-types";
 import {PokemonModel} from "../pokemonStucture/PokemonModel";
 
 
-fdescribe('PokemonService', () => {
+describe('PokemonService', () => {
   let service: PokemonService;
   let http: HttpTestingController;
 
