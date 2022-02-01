@@ -1,9 +1,9 @@
-import {TestBed} from '@angular/core/testing';
-
+import {TestBed, waitForAsync} from '@angular/core/testing';
 import {PokemonService} from './pokemon.service';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {PokemonTypes} from "../pokemonStucture/pokemon-types";
 import {PokemonModel} from "../pokemonStucture/PokemonModel";
+
 
 describe('PokemonService', () => {
   let service: PokemonService;
@@ -57,83 +57,77 @@ describe('PokemonService', () => {
   });
 
   describe('searchPokemons', () => {
-    it('should return a selection of pokemon', () => {
+    it('should return a selection of pokemon', waitForAsync(() => {
       // given
       const searchTerm = 'pika';
       const fakeArrayResponse = [{name: 'pikachu'}];
-      let pokemonListResult: PokemonModel[] = [];
 
       // when
       service.searchPokemons(searchTerm).subscribe(
-        result => (pokemonListResult = result)
+        result => (
+          // then
+          expect(result.length).toBe(1)
+        )
       );
 
       http
         .expectOne(`api/pokemons/?name=${searchTerm}`)
         .flush(fakeArrayResponse);
 
-      // then
-      expect(pokemonListResult.length).toBe(1);
 
-    });
+    }));
 
-    it('should return empty array if no search term', () => {
+    it('should return empty array if no search term', waitForAsync(() => {
       // given
       const searchTerm = '';
-      let pokemonListResult: PokemonModel[] = [];
-
       // when
       service.searchPokemons(searchTerm).subscribe(
-        result => (pokemonListResult = result)
+        result => (
+          // then
+          expect(result.length).toBe(0)
+        )
       );
-
       http
         .expectNone(`api/pokemons/?name=${searchTerm}`)
-
-      // then
-      expect(pokemonListResult.length).toBe(0);
-    });
+    }));
   });
 
   describe('getPokemonList', () => {
-    it('should return an Array', () => {
+    it('should return an Array', waitForAsync(() => {
       // given
-      let pokemonList: PokemonModel[] = [];
       const fakeArrayResponse = [{name: 'pikachu'}, {name: 'pikachu2'}, {name: 'pikachu3'}];
 
       // when
       service.getPokemonList().subscribe(
-        result => (pokemonList = result)
+        result => (
+          // then
+          expect(result.length).toBeGreaterThan(0)
+        )
       );
 
       http
         .expectOne(`api/pokemons`)
         .flush(fakeArrayResponse);
-
-      // then
-      expect(pokemonList.length).toBeGreaterThan(0);
-    });
+    }));
   });
 
 
   describe('getPokemon', () => {
-    it('should return 1 specific pokemon', () => {
+    it('should return 1 specific pokemon', waitForAsync(() => {
       // given
       const id = 3;
-      const fakePokemon3 = {id: 3, name: 'fakePokemon'};
-      let pokemonResult = {};
+      const fakePokemon3 = service.createPokemon(new Date(), 3);
+
       // when
       service.getPokemon(3).subscribe(
-        result => (pokemonResult = result)
+        result => (// then
+          expect(result).toBe(fakePokemon3)
+        )
       );
-      // then
       http
         .expectOne(`api/pokemons/${id}`)
         .flush(fakePokemon3);
-
-      // then
-      expect(pokemonResult).toBe(fakePokemon3);
-    });
+    }));
   });
 
 
@@ -160,70 +154,87 @@ describe('PokemonService', () => {
 
 
   describe('deletePokemon', () => {
-    it('should delete 1 specific pokemon', () => {
+    it('should delete 1 specific pokemon', waitForAsync(() => {
       // given
-      const fakePokemon3 = {id: 3, hp: 45, cp: 33, name: 'fakePokemon', picture: 'seas', type: PokemonTypes.normal};
-      let pokemonResult = {};
+      const fakePokemon3 = service.createPokemon(new Date(), 3);
+
       // when
       service.deletePokemon(fakePokemon3.id).subscribe(
-        result => (pokemonResult = result)
+        result => (// then
+          expect(result).toBe(fakePokemon3)
+        )
       );
-      // then
       http
         .expectOne(`api/pokemons/${fakePokemon3.id}`)
         .flush(fakePokemon3);
-
-      // then
-      expect(pokemonResult).toBe(fakePokemon3);
-    });
+    }));
   });
 
   describe('addPokemon', () => {
-    it('should create 1 pokemon from form values', () => {
+    it('should create a new pokemon from form values', waitForAsync(() => {
       // given
-      const id = 3;
+      const pokemonFormValues = {
+        id: 40,
+        hp: 20,
+        cp: 20,
+        name: 'fakePokemon',
+        types: [PokemonTypes.fairy]
+      };
       // when
-      const pokemon3 = service.getPokemon(3);
-      // then
+      service.addPokemon(pokemonFormValues as PokemonModel).subscribe(
+        createdPokemon => (
+          expect(createdPokemon.picture).toBeDefined()
+        )
+      );
+      http
+        .expectOne(`api/pokemons`)
+        .flush(service.createPokemon(new Date(), 40))
+      ;
+    }));
 
-      // expect(pokemon3.id).toBe(3);
-    });
+
   });
 
   describe('updatePokemon', () => {
-    it('should update data of 1 pokemon', () => {
+    it('should change pokemon from form values', waitForAsync(() => {
       // given
-      const id = 3;
-      // when
-      const pokemon3 = service.getPokemon(3);
-      // then
+      const updatedPokemonFormValues = {
+        hp: 25,
+        cp: 20,
+        name: 'newName',
+        types: [PokemonTypes.fairy, PokemonTypes.normal]
+      };
 
-      // expect(pokemon3.id).toBe(3);
-    });
+      const oldPokemonValue = {
+        created: new Date(),
+        id: 40,
+        hp: 5,
+        cp: 9,
+        name: 'fakePokemon',
+        picture: 'urlurlurl',
+        types: [PokemonTypes.fairy]
+      }
+
+      // when
+      service.updatePokemon(oldPokemonValue, updatedPokemonFormValues as PokemonModel).subscribe(
+        createdPokemon => (
+          expect(createdPokemon.name).toBe('newName')
+        )
+      );
+      http
+        .expectOne(`api/pokemons`)
+        .flush(service.createPokemon(
+          new Date(),
+          oldPokemonValue.id,
+          updatedPokemonFormValues.hp || oldPokemonValue.hp,
+          updatedPokemonFormValues.cp || oldPokemonValue.cp,
+          updatedPokemonFormValues.name || oldPokemonValue.name,
+          oldPokemonValue.picture,
+          updatedPokemonFormValues.types || oldPokemonValue.types
+        ));
+    }))
+
   });
 
-  describe('idGenerator', () => {
-    it('should an id above 13', () => {
-      // given
-      const id = 3;
-      // when
-      const pokemon3 = service.getPokemon(3);
-      // then
-
-      // expect(pokemon3.id).toBe(3);
-    });
-  });
-
-  describe('pokemonUrlGenerator', () => {
-    it('should insert a random number above 13 as a string in a url', () => {
-      // given
-      const id = 3;
-      // when
-      const pokemon3 = service.getPokemon(3);
-      // then
-
-      // expect(pokemon3.id).toBe(3);
-    });
-  });
 
 });

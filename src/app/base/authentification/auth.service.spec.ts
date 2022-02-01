@@ -3,7 +3,7 @@ import {TestBed, waitForAsync} from '@angular/core/testing';
 import {AuthService} from './auth.service';
 import {mergeMap} from "rxjs";
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(() => {
@@ -15,7 +15,7 @@ fdescribe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('login', () => {
+  describe('login$', () => {
     it('should login on correct name and password', (done) => {
       // given
       const name = 'pokeball';
@@ -45,37 +45,37 @@ fdescribe('AuthService', () => {
 
   })
 
- describe('checkLogin$', () => {
-   it('should reflect login state as false by default', waitForAsync(() => {
-     //given
+  describe('checkLogin$', () => {
+    it('should reflect login state as false by default', waitForAsync(() => {
+      //given
 
-     //when
-     service.checkLogin$().subscribe(
-       // then
-       (isLoggedIn) => {
-         expect(isLoggedIn).toBeFalsy();
-       }
-     )
+      //when
+      service.checkLogin$().subscribe(
+        // then
+        (isLoggedIn) => {
+          expect(isLoggedIn).toBeFalsy();
+        }
+      )
 
-   }))
+    }))
 
-   it('should reflect login state as true after successfull login', waitForAsync(() => {
-     //given
-     const name = 'pokeball';
-     const password = 'pokeball';
+    it('should reflect login state as true after successfull login', waitForAsync(() => {
+      //given
+      const name = 'pokeball';
+      const password = 'pokeball';
 
-     //when
-     service.login$(name, password).pipe(
-       mergeMap(() => service.checkLogin$())
-     ).subscribe(
-       // then
-       (isLoggedIn) => {
-         expect(isLoggedIn).toBeTruthy();
-       }
-     )
+      //when
+      service.login$(name, password).pipe(
+        mergeMap(() => service.checkLogin$())
+      ).subscribe(
+        // then
+        (isLoggedIn) => {
+          expect(isLoggedIn).toBeTruthy();
+        }
+      )
 
-   }))
+    }))
 
- })
+  })
 
 });

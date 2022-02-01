@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   public connectingStatus = false;
   private subscription?: Subscription;
 
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) {
+  }
 
 
   ngOnInit(): void {
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    if (this.subscription){
+    if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
@@ -39,19 +40,19 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
-  public login(user : UserModel) {
+  public login(user: UserModel): void {
     this.connectingStatus = true;
     this.message = 'Connecting ...';
     this.authService.login$(user.name, user.password).subscribe(
       (isLoggedIn) => {
-      if (isLoggedIn) {
-        const redirect = this.router.getCurrentNavigation()?.extractedUrl?.queryParams?.['redirectUrl'] || '/pokemons/all';
-        this.router.navigate([redirect]);
-      } else {
-        this.connectingStatus = false;
-        this.user.password = '';
-      }
-    });
+        if (isLoggedIn) {
+          const redirect = this.router.getCurrentNavigation()?.extractedUrl?.queryParams?.['redirectUrl'] || '/pokemons/all';
+          this.router.navigate([redirect]);
+        } else {
+          this.connectingStatus = false;
+          this.user.password = '';
+        }
+      });
   }
 
   private setMessage(isLoggedIn: boolean) {
